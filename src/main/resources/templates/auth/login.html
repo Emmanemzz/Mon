@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon - Login</title>
+</head>
+<body>
+    <h1>¡Incia sesión!</h1>
+    <h4>Y prepara algo rico &#x1F600;</h4>
+
+    <p th:if="${param.error}" style="color: red;">
+        Email o contraseña incorrectos.
+    </p>
+
+    <!--Formulario de inicio de sesión-->
+    <form th:action="@{/login}" method="post">
+        <label for="email">Email:</label>
+        <input type="email" name="email" required/>
+
+        <label for="password">contraseña:</label>
+        <input type="password" name="password" required/>
+
+        <button type="submit">Entrar</button>
+    </form>
+    <p>¿Todavía no tienes cuenta? <strong><a th:href="@{/registro}">Regístrate aquí</a></strong></p>
+</body>
+</html>

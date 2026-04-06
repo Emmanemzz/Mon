@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon - Login</title>
+</head>
+<body>
+    <h1>¡Regístrate!</h1>
+    <h4>Y comparte tus recetas &#x1F600;</h4>
+
+    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+    <!--Formulario de inicio de sesión-->
+    <form th:action="@{/registro}" th:object="${usuario}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" th:field="*{nombre}" required/>
+
+        <label for="email">Email:</label>
+        <input type="email" th:field="*{email}" required>
+
+        <label for="password">contraseña:</label>
+        <input type="password" th:field="*{password}" required/>
+
+        <button type="submit">Registrarse</button>
+    </form>
+    <p>¿Ya tienes cuenta? <strong><a th:href="@{/login}">Inicia sesión</a></strong></p>
+</body>
+</html>
