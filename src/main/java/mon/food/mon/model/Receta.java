@@ -20,6 +20,10 @@ public class Receta {
 
     private String tipoDieta;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario autor;
+
     //CONSTRUCTOR
     public Receta() {
 
@@ -73,6 +77,16 @@ public class Receta {
     public void setTipoDieta(String tipoDieta) {
         this.tipoDieta = tipoDieta;
     }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+
+    
 
     
 }

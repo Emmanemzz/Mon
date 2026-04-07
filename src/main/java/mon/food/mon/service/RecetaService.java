@@ -1,12 +1,16 @@
 package mon.food.mon.service;
 
-import java.util.List;
-import java.util.Optional;
+import mon.food.mon.model.Receta;
+import mon.food.mon.model.Usuario;
+
+import mon.food.mon.repository.RecetaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import mon.food.mon.model.Receta;
-import mon.food.mon.repository.RecetaRepository;
+
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecetaService {
@@ -24,20 +28,39 @@ public class RecetaService {
         return recetaRepository.findById(id);
     }
 
-    public Receta guardar(Receta receta){
+    /*public Receta guardar(Receta receta){
         if (receta == null){
             throw new IllegalArgumentException("La receta no puede estar vacía");
         }
         return recetaRepository.save(receta);
+    } */
+    public Receta guardarConAutor(Receta receta, Usuario autor){
+        if (receta == null) {
+            throw new IllegalArgumentException("La receta no puede estar vacía");
+        }
+        if (autor == null) {
+            throw new IllegalArgumentException("El autor no puede estar vacío");            
+        }
+        receta.setAutor(autor);
+        return recetaRepository.save(receta);
     }
 
     //Cuando avance lo quito de comentarios
-    /*public void eliminar(Long id){
+    public void eliminar(Long id){
+        if (id == null) {
+            throw new IllegalArgumentException("El id no puede estar vacío");
+        }
         recetaRepository.deleteById(id);
-    }*/
+    }
 
     public List<Receta> buscarPorPais(String pais){
-        return recetaRepository.findByPais(pais);
+        return recetaRepository.findByCountry(pais);
     }
+
+    public List<Receta> buscarPorUsuario(Usuario usuario){
+        return recetaRepository.findByAutor(usuario);
+    }
+
+    
     
 }
