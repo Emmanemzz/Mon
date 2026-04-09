@@ -34,6 +34,7 @@ public class RecetaService {
         }
         return recetaRepository.save(receta);
     } */
+   //Método para guardar receta
     public Receta guardarConAutor(Receta receta, Usuario autor){
         if (receta == null) {
             throw new IllegalArgumentException("La receta no puede estar vacía");
@@ -45,7 +46,7 @@ public class RecetaService {
         return recetaRepository.save(receta);
     }
 
-    //Cuando avance lo quito de comentarios
+    //Método eliminar
     public void eliminar(Long id){
         if (id == null) {
             throw new IllegalArgumentException("El id no puede estar vacío");
@@ -53,14 +54,30 @@ public class RecetaService {
         recetaRepository.deleteById(id);
     }
 
+    //Método para buscar por país
     public List<Receta> buscarPorPais(String pais){
         return recetaRepository.findByCountry(pais);
     }
 
+    //Método para buscar por autor
     public List<Receta> buscarPorUsuario(Usuario usuario){
         return recetaRepository.findByAutor(usuario);
     }
 
+    //Método para buscar por el tipo de dieta
+    public List<Receta> buscarPorTipoDieta(String tipoDieta){
+        return recetaRepository.findByTipoDieta(tipoDieta);
+    }
+
+    //Método para buscar por alergias
+    public List<Receta> buscarPorAlergias(String alergia){
+        return recetaRepository.findByTituloContainingIgnoreCase(alergia);
+    }
+
+    //Método para buscar por ingredientes
+    public List<Receta> buscarPorIngredientes(String ingrediente){
+        return recetaRepository.findByIngredientesContainingIgnoreCase(ingrediente);
+    }
     
     
 }

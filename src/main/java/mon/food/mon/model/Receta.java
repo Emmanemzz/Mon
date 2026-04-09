@@ -24,6 +24,11 @@ public class Receta {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario autor;
 
+    @Column(length = 2000)
+    private String ingredientes;
+    
+    private String alergias;
+
     //CONSTRUCTOR
     public Receta() {
 
@@ -84,6 +89,22 @@ public class Receta {
 
     public void setAutor(Usuario autor) {
         this.autor = autor;
+    }
+
+    public String getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(String ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public String getAlergias() {
+        return alergias;
+    }
+
+    public void setAlergias(String alergias) {
+        this.alergias = alergias;
     }
 
     

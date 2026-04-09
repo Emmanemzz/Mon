@@ -17,6 +17,7 @@ import java.util.Optional;
 
 
 
+
 @Controller
 @RequestMapping("/recetas")
 public class RecetaController {
@@ -102,6 +103,34 @@ public class RecetaController {
                 recetaService.eliminar(id); 
             }
             return "redirect:/recetas";
+    }
+    
+    //Público, búsqueda con filtros
+    @GetMapping("/buscar")
+    public String search(@RequestParam(required = false) String ingrediente,
+                        @RequestParam(required = false) String pais,
+                        @RequestParam(required = false) String tipoDieta,
+                        @RequestParam(required = false) String alergia,
+                        Model model) {
+        List<Receta> resultadosBusqueda;
+        if (ingrediente != null && !ingrediente.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorIngredientes(ingrediente);
+        }else if (pais != null && !pais.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorPais(pais);
+        }else if (tipoDieta != null && !tipoDieta.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorTipoDieta(tipoDieta);
+        }else if (alergia != null && !alergia.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorAlergias(alergia);
+        }else{
+            resultadosBusqueda = recetaService.listarTodas();
+        }
+        model.addAttribute("recetas", resultadosBusqueda);
+        model.addAttribute("ingrediente", ingrediente);
+        model.addAttribute("pais", pais);
+        model.addAttribute("tipoDoieta", tipoDieta);
+        model.addAttribute("alergia", alergia);
+
+        return "/recetas/buscar";
     }
     
 
