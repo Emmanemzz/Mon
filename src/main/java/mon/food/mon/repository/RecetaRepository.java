@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface RecetaRepository extends JpaRepository<Receta, Long>{
-    List<Receta> findByCountry(String pais);
+    List<Receta> findByPais(String pais);
     List<Receta> findByTipoDieta(String tipoDieta);
     List<Receta> findByTituloContainingIgnoreCase(String titulo);
     List<Receta> findByAutor(Usuario autor);

@@ -56,7 +56,7 @@ public class RecetaService {
 
     //Método para buscar por país
     public List<Receta> buscarPorPais(String pais){
-        return recetaRepository.findByCountry(pais);
+        return recetaRepository.findByPais(pais);
     }
 
     //Método para buscar por autor
