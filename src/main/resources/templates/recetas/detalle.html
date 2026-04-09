@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon - Detalle Receta</title>
+</head>
+<body>
+    <h1 th:text="${receta.titulo}">Título</h1>
+    
+    <!--PÚBLICO-->
+    <p th:text="${receta.descripcion}">Descripción de la receta</p>
+    <p th:text="${receta.pais}">País</p>
+    <p th:text="${receta.tipoDieta}">Tipo de Dieta</p>
+    <p>Autor: <bold th:text="${receta.autor}">Autor de la receta</bold></p>
+
+    <!--PRIVADO (sólo lo ve el autor de la receta)-->
+    <div th:if="${#authentication.principal.id == receta.autor.id}">
+        <!--igual en vez de "a" hago un botón-->
+        <a th:href="@{/recetas/{id}/editar(id=${receta.id})}">Editar receta</a>
+
+        <form th:action="@{/recetas/{id}/eliminar(id=${receta.id})}" method="post">
+            <button type="submit">Eliminar</button>
+        </form>
+    </div>
+    
+    <a th:href="@{/recetas}">Volver</a>
+</body>
+</html>

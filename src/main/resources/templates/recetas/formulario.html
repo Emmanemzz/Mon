@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon - Formulario receta</title>
+</head>
+<body>
+    <h1 th:text="${receta.id != null} ? 'Editar receta' : 'Nueva receta'">Crea tu Receta!</h1>
+
+    <form th:action="${receta.id != null} ? @{/recetas/{id}/editar(id=${receta.id})} : @{/recetas/nueva}
+        th:object="${receta}" method="post">
+    
+        <label>Título</label>
+        <input type="text" th:field="*{titulo}" required>
+
+        <label>Descripción</label>
+        <textarea th:field="*{descripcion}"></textarea>
+
+        <label>País</label>
+        <input type="text" th:field="*{pais}">
+
+        <label>Tipo de Dieta</label>
+        <input type="text" th:field="*{tipoDieta}">
+
+        <button type="submit">Guardar</button>
+
+    </form>
+
+    <a th:href="@{/recetas}">Cancelar</a>
+</body>
+</html>
