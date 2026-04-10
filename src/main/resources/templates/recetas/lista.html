@@ -9,7 +9,7 @@
     <h1>Todas las Recetas</h1>
     
     <a th:href="@{/recetas/nueva}">+ Nueva receta</a>
-    <div th:each="receta : ~{recetas}">
+    <div th:each="receta : ${recetas}">
         <h2>
             <a th:href="@{/recetas/{id}(id=${receta.id})}" th:text="${receta.titulo}">Título</a>
         </h2>

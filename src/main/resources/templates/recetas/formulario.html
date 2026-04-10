@@ -8,7 +8,7 @@
 <body>
     <h1 th:text="${receta.id != null} ? 'Editar receta' : 'Nueva receta'">Crea tu Receta!</h1>
 
-    <form th:action="${receta.id != null} ? @{/recetas/{id}/editar(id=${receta.id})} : @{/recetas/nueva}
+    <form th:action="${receta.id != null} ? @{/recetas/{id}/editar(id=${receta.id})} : @{/recetas/nueva}"
         th:object="${receta}" method="post">
     
         <label>Título</label>

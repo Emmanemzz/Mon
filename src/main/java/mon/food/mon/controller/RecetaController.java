@@ -71,7 +71,7 @@ public class RecetaController {
         Model model) {
             
             Optional<Receta> receta = recetaService.listarPorId(id);
-            if (receta.isEmpty() || receta.get().getAutor().getId().equals(usuarioActual.getId())) {
+            if (receta.isEmpty() || !receta.get().getAutor().getId().equals(usuarioActual.getId())) {
                 return "redirect:/recetas";
             }
             model.addAttribute("receta", receta.get());
@@ -90,7 +90,7 @@ public class RecetaController {
             }
             recetaEditada.setId(id);
             recetaService.guardarConAutor(recetaEditada, usuarioActual);
-            return "redirect:/recetas" + id;
+            return "redirect:/recetas/" + id;
     }
 
     //Sólo puede hacerlo el autor, eliminar receta
@@ -130,14 +130,14 @@ public class RecetaController {
         model.addAttribute("tipoDoieta", tipoDieta);
         model.addAttribute("alergia", alergia);
 
-        return "/recetas/buscar";
+        return "recetas/buscar";
     }
     
-
-   @GetMapping("/")
+    /*@GetMapping("/")
     public String inicio() {
         return "inicio";
-    } 
+    }  */
+   
     
     
     

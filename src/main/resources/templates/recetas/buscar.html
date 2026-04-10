@@ -9,7 +9,7 @@
     <h1>Buscar recetas</h1>
     <p>Hay muchas delicias esperando!! </p>
 
-    <form th:action="${/recetas/buscar} method="get">
+    <form th:action="@{/recetas/buscar}" method="get">
     
         <label>Ingrediente:</label>
         <input type="text" name="ingrediente" th:value="${ingrediente}">
@@ -32,7 +32,7 @@
 
     <div th:each="receta : ${recetas}">
         <h3>
-            <a th:href="@{/recetas/{id}(id=${receta.is})}" th:text="${receta.titulo}">Título</a>
+            <a th:href="@{/recetas/{id}(id=${receta.id})}" th:text="${receta.titulo}">Título</a>
         </h3>
 
         <p th:text="${receta.pais}">País</p>
