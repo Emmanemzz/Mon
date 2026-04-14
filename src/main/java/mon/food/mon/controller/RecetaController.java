@@ -6,6 +6,7 @@ import mon.food.mon.model.Usuario;
 import mon.food.mon.service.RecetaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +52,7 @@ public class RecetaController {
 
     //Esto es privado, mostramos el formulario para crear receta
     @GetMapping("/nueva")
+    @PreAuthorize("isAuthenticated()")
     public String nuevaReceta(Model model) {
         model.addAttribute("receta", new Receta());
         return "recetas/formulario";

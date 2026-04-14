@@ -29,6 +29,16 @@ public class Receta {
     
     private String alergias;
 
+    private String tiempoPreparacion;
+
+    private String dificultad;
+
+    private String metodoPreparacion;
+
+    private String imagen1;
+
+    private String imagen2;
+
     //CONSTRUCTOR
     public Receta() {
 
@@ -105,6 +115,46 @@ public class Receta {
 
     public void setAlergias(String alergias) {
         this.alergias = alergias;
+    }
+
+    public String getTiempoPreparacion() {
+        return tiempoPreparacion;
+    }
+
+    public void setTiempoPreparacion(String tiempoPreparacion) {
+        this.tiempoPreparacion = tiempoPreparacion;
+    }
+
+    public String getDificultad() {
+        return dificultad;
+    }
+
+    public void setDificultad(String dificultad) {
+        this.dificultad = dificultad;
+    }
+
+    public String getMetodoPreparacion() {
+        return metodoPreparacion;
+    }
+
+    public void setMetodoPreparacion(String metodoPreparacion) {
+        this.metodoPreparacion = metodoPreparacion;
+    }
+
+    public String getImagen1() {
+        return imagen1;
+    }
+
+    public void setImagen1(String imagen1) {
+        this.imagen1 = imagen1;
+    }
+
+    public String getImagen2() {
+        return imagen2;
+    }
+
+    public void setImagen2(String imagen2) {
+        this.imagen2 = imagen2;
     }
 
     

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,11 @@
 <body>
     <h1>Todas las Recetas</h1>
     
-    <a th:href="@{/recetas/nueva}">+ Nueva receta</a>
+    <p sec:authorize="isAuthenticated()">LOGUEADO</p>
+<p sec:authorize="!isAuthenticated()">NO LOGUEADO</p>
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/recetas/nueva}">+ Nueva receta</a>
+    </div>
     <div th:each="receta : ${recetas}">
         <h2>
             <a th:href="@{/recetas/{id}(id=${receta.id})}" th:text="${receta.titulo}">Título</a>
