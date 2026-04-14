@@ -85,7 +85,7 @@ public class RecetaController {
         @AuthenticationPrincipal Usuario usuarioActual) {
             
             Optional<Receta> receta = recetaService.listarPorId(id);
-            if (receta.isEmpty() || receta.get().getAutor().getId().equals(usuarioActual.getId())) {
+            if (receta.isEmpty() || !receta.get().getAutor().getId().equals(usuarioActual.getId())) {
                 return "redirect:/recetas";  
             }
             recetaEditada.setId(id);
@@ -127,18 +127,11 @@ public class RecetaController {
         model.addAttribute("recetas", resultadosBusqueda);
         model.addAttribute("ingrediente", ingrediente);
         model.addAttribute("pais", pais);
-        model.addAttribute("tipoDoieta", tipoDieta);
+        model.addAttribute("tipoDieta", tipoDieta);
         model.addAttribute("alergia", alergia);
 
         return "recetas/buscar";
     }
-    
-    /*@GetMapping("/")
-    public String inicio() {
-        return "inicio";
-    }  */
-   
-    
-    
+
     
 }

@@ -36,7 +36,7 @@ public class SecurityConfig {
         http
             //Rutas públicas esté registrado o no
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/","/recetas","/recetas/**").permitAll()
+                .requestMatchers("/","/inicio","/recetas","/recetas/**").permitAll()
                 .requestMatchers("/registro","/login", "/error").permitAll()
                 .requestMatchers("/css/**","/js/**","/images/**").permitAll()
                 .anyRequest().authenticated()
@@ -50,7 +50,7 @@ public class SecurityConfig {
             )
 
             .logout(logout -> logout
-                .logoutSuccessUrl("/recetas") //Tras cerrar sesión nos llleva al inicio de la página
+                .logoutSuccessUrl("/inicio") //Tras cerrar sesión nos llleva al inicio de la página
                 .permitAll()
             );
             return http.build();
