@@ -79,5 +79,8 @@ public class RecetaService {
         return recetaRepository.findByIngredientesContainingIgnoreCase(ingrediente);
     }
     
-    
+    //Método para buscar por tipo de plato
+    public List<Receta> buscarPorTipoPlato(String tipoPlato){
+        return recetaRepository.findByTipoPlato(tipoPlato);
+    }
 }

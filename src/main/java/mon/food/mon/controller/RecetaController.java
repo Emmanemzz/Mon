@@ -113,6 +113,7 @@ public class RecetaController {
                         @RequestParam(required = false) String pais,
                         @RequestParam(required = false) String tipoDieta,
                         @RequestParam(required = false) String alergia,
+                        @RequestParam(required = false) String tipoPlato,
                         Model model) {
         List<Receta> resultadosBusqueda;
         if (ingrediente != null && !ingrediente.isBlank()) {
@@ -123,6 +124,8 @@ public class RecetaController {
             resultadosBusqueda = recetaService.buscarPorTipoDieta(tipoDieta);
         }else if (alergia != null && !alergia.isBlank()) {
             resultadosBusqueda = recetaService.buscarPorAlergias(alergia);
+        }else if (tipoPlato != null && !tipoPlato.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorTipoPlato(tipoPlato);
         }else{
             resultadosBusqueda = recetaService.listarTodas();
         }
@@ -131,8 +134,9 @@ public class RecetaController {
         model.addAttribute("pais", pais);
         model.addAttribute("tipoDieta", tipoDieta);
         model.addAttribute("alergia", alergia);
+        model.addAttribute("tipoPlato", tipoPlato);
 
-        return "recetas/buscar";
+        return "recetas/lista";
     }
 
     

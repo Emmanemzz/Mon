@@ -35,6 +35,8 @@ public class Receta {
 
     private String metodoPreparacion;
 
+    private String tipoPlato;
+
     private String imagen1;
 
     private String imagen2;
@@ -155,6 +157,14 @@ public class Receta {
 
     public void setImagen2(String imagen2) {
         this.imagen2 = imagen2;
+    }
+
+    public String getTipoPlato() {
+        return tipoPlato;
+    }
+
+    public void setTipoPlato(String tipoPlato) {
+        this.tipoPlato = tipoPlato;
     }
 
     
