@@ -83,4 +83,6 @@ public class RecetaService {
     public List<Receta> buscarPorTipoPlato(String tipoPlato){
         return recetaRepository.findByTipoPlato(tipoPlato);
     }
+
+    
 }

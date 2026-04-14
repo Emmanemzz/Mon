@@ -29,7 +29,7 @@
       </div>
       <!--Barra de búsqueda recetas-->
       <div class="col">
-        <form th:action="@{/recetas/buscar}" method="get">
+        <form th:action="@{/recetas}" method="get">
           <input
             type="text"
             name="ingrediente"
@@ -74,7 +74,7 @@
         <div class="row">
             <!--Filtros-->
             <aside class="col-md-3">
-                <form th:action="@{/recetas/buscar}" method="get">
+                <form th:action="@{/recetas}" method="get">
                     <h6>Filtrar búsqueda</h6>
                     <!--Filtro cocina-->
                     <div class="mb-3">
@@ -159,7 +159,7 @@
 
                     <!--Botones-->
                     <button type="submit" class="btn btn-outline-secondary w-100">Filtrar búsqueda</button>
-                    <button type="submit" class="btn btn-outline-secondary w-100">Limpiar filtros</button>
+                    <button type="button" onclick="window.location.href='/recetas'" class="btn btn-outline-secondary w-100">Limpiar filtros</button>
                 </form>
             </aside>
             <!--Fin búsqueda por filtros-->
