@@ -3,10 +3,11 @@ package mon.food.mon.controller;
 import mon.food.mon.model.Receta;
 import mon.food.mon.model.Usuario;
 
+import mon.food.mon.service.ComentarioService;
 import mon.food.mon.service.RecetaService;
 import mon.food.mon.service.UsuarioService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,15 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/recetas")
 public class RecetaController {
+    private final ComentarioService comentarioService;
     private final RecetaService recetaService;
+    private final UsuarioService usuarioService;
 
-    public RecetaController(RecetaService recetaService){
+
+    public RecetaController(RecetaService recetaService, ComentarioService comentarioService, UsuarioService usuarioService){
         this.recetaService = recetaService;
+        this.comentarioService = comentarioService;
+        this.usuarioService = usuarioService;
     }
 
     // Esto es público, listamos todas las recetas disponibles y filtros
@@ -79,6 +85,8 @@ public class RecetaController {
             return "redirect:/recetas";
         }
         model.addAttribute("receta", receta.get());
+        model.addAttribute("comentarios", comentarioService.obtenerPorReceta(receta.get()));
+
         if (usuarioActual != null) {
             Usuario usuarioRecargado = usuarioService.buscarPorEmail(usuarioActual.getEmail());
             model.addAttribute("usuarioActual", usuarioRecargado);
@@ -143,8 +151,6 @@ public class RecetaController {
         return "redirect:/recetas";
     }
 
-    @Autowired
-    private UsuarioService usuarioService;
 
     //Método guardar receta
     @PostMapping("/{id}/guardar")
