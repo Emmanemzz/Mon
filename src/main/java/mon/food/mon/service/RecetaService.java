@@ -84,5 +84,7 @@ public class RecetaService {
         return recetaRepository.findByTipoPlato(tipoPlato);
     }
 
-    
+    public List<Receta> listarPorUsuario(Usuario usuario){
+        return recetaRepository.findByAutor(usuario);
+    }
 }

@@ -5,22 +5,27 @@ import mon.food.mon.repository.UsuarioRepository;
 import mon.food.mon.model.Receta;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
 
 
 @Service
 public class UsuarioService implements UserDetailsService {
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final RecetaService recetaService;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    public UsuarioService(RecetaService recetaService, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.recetaService = recetaService;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     //Buscamos al usuario mediante el email para ver si existe o no
     @Override
@@ -61,5 +66,16 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario buscarPorEmail(String email){
         return usuarioRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
+    }
+
+    public List<Receta> obtenerRecetasPorUsuario(Usuario usuario){
+        return recetaService.buscarPorUsuario(usuario);
+    }
+
+    public void actualizarPerfil(Usuario usuario, Usuario datosEditados){
+        usuario.setNombre(datosEditados.getNombre());
+        usuario.setBiografia(datosEditados.getBiografia());
+        usuario.setImagenPerfil(datosEditados.getImagenPerfil());
+        usuarioRepository.save(usuario);
     }
 }
