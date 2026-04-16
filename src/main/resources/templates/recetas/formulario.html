@@ -1,32 +1,264 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon - Formulario receta</title>
-</head>
-<body>
-    <h1 th:text="${receta.id != null} ? 'Editar receta' : 'Nueva receta'">Crea tu Receta!</h1>
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <title>Mon - Receta</title>
+  </head>
+  <body>
+    <!--HEADER MON-->
+    <header class="container-fluid py-2">
+      <div class="row align-items-center">
+        <!--Logo de la página-->
+        <div class="col-auto">
+          <a th:href="@{/}">
+            <img
+              th:src="@{/images/logo/mon-logo.png}"
+              alt="Logo Mon"
+              height="70"
+            />
+          </a>
+        </div>
+      </div>
+      <!--Barra de búsqueda recetas-->
+      <div class="col">
+        <form th:action="@{/recetas}" method="get">
+          <input
+            type="text"
+            name="ingrediente"
+            class="form-control"
+            placeholder="Busca una receta..."
+          />
+        </form>
+      </div>
+      <!--Botones de login y registro-->
+      <div class="col-auto">
+        <a th:href="@{/login}" class="button button-outline-secondary me-2"
+          >Iniciar sesión</a
+        >
+        <a th:href="@{/registro}" class="button button-outline-secondary"
+          >Registro</a
+        >
+      </div>
+    </header>
+    <!--Fin del header-->
 
-    <form th:action="${receta.id != null} ? @{/recetas/{id}/editar(id=${receta.id})} : @{/recetas/nueva}"
-        th:object="${receta}" method="post">
-    
-        <label>Título</label>
-        <input type="text" th:field="*{titulo}" required>
+    <!--Menú de navegación-->
+    <nav class="container-fluid">
+      <div class="row text-center">
+        <div class="col">
+          <a th:href="@{/}" class="text-decoration-none">Inicio</a>
+        </div>
+        <div class="col">
+          <a th:href="@{/recetas}" class="text-decoration-none">Recetas</a>
+        </div>
+        <div class="col">
+          <a th:href="@{/perfil}" class="text-decoration-none">Perfil</a>
+        </div>
+        <div class="col">
+          <a th:href="@{/contacto}" class="text-decoration-none">Contacto</a>
+        </div>
+      </div>
+    </nav>
+    <!--Fin menú de navegación-->
 
-        <label>Descripción</label>
-        <textarea th:field="*{descripcion}"></textarea>
+    <!--Contenido del formulario-->
+    <div class="container my-4">
+      <!--Encabezado del formulario-->
+      <h2
+        class="text-center"
+        th:text="${receta.id == null} ? 'Crear receta' : 'Editar receta'"
+      >
+        Crear receta
+      </h2>
 
-        <label>País</label>
-        <input type="text" th:field="*{pais}">
+      <form
+        th:action="${receta.id == null} ? @{/recetas/nueva} : @{/recetas/{id}/editar(id=${receta.id})}"
+        th:object="${receta}"
+        method="post"
+      >
+        <!--Título receta-->
+        <div class="mb-4 text-center">
+          <input
+            type="text"
+            th:field="*{titulo}"
+            placeholder="Introduzca un título de receta"
+            class="form-control text-center"
+          />
+        </div>
 
-        <label>Tipo de Dieta</label>
-        <input type="text" th:field="*{tipoDieta}">
+        <div class="row">
+          <!--Ingredientes-->
+          <div class="col-md-4">
+            <textarea
+              th:field="*{ingredientes}"
+              rows="5"
+              placeholder="Escribe un ingrediente por línea"
+              class="form-control"
+            >
+            </textarea>
+          </div>
+          <!--Dificultad, tiempo, imágenes-->
+          <div class="col-md-8">
+            <div class="input-group mb-2">
+              <span class="input-group-text">Tiempo de preparación</span>
+              <input
+                type="text"
+                th:field="*{tiempoPreparacion}"
+                placeholder="Introduce tiempo de preparación"
+                class="form-control"
+              />
+            </div>
 
-        <button type="submit">Guardar</button>
+            <div class="input-group mb-3">
+              <span class="input-group-text">Dificultad</span>
+              <input
+                type="text"
+                th:field="*{dificultad}"
+                placeholder="Introduce la dificultad"
+                class="form-control"
+              />
+            </div>
 
-    </form>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="border p-3 text-center">
+                  <p class="text-muted mb-1">Imagen 1</p>
+                  <input
+                    type="text"
+                    th:field="*{imagen1}"
+                    placeholder="Pega aquí la URL https://..."
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="border p-3 text-center">
+                  <p class="text-muted mb-1">Imagen 2</p>
+                  <input
+                    type="text"
+                    th:field="*{imagen2}"
+                    placeholder="Pega aquí la URL https://..."
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <a th:href="@{/recetas}">Cancelar</a>
-</body>
+        <!--Preparación-->
+        <div class="mt-4">
+          <div class="border p-3">
+            <h6>Método de preparación</h6>
+            <textarea
+              th:field="*{metodoPreparacion}"
+              rows="6"
+              placeholder="Escribe aquí los pasos de tu deliciosa receta &#128512;"
+              class="form-control border-0"
+            ></textarea>
+          </div>
+        </div>
+
+        <!--EXTRA ETIQUETAS-->
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="input-group mb-2">
+              <span class="input-group-text">Tipo de cocina</span>
+              <input
+                type="text"
+                th:field="*{pais}"
+                placeholder="Mediterránea, Oriental..."
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group mb-2">
+              <span class="input-group-text">Tipo de dieta</span>
+              <input
+                type="text"
+                th:field="*{tipoDieta}"
+                placeholder="Vegetariana, Vegana..."
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group mb-2">
+              <span class="input-group-text">Tipo de plato</span>
+              <input
+                type="text"
+                th:field="*{tipoPlato}"
+                placeholder="Entrante, Principal..."
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group mb-2">
+              <span class="input-group-text">Alergias</span>
+              <input
+                type="text"
+                th:field="*{alergias}"
+                placeholder="Gluten, Lactosa..."
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-outline-secondary px-5">
+            Guardar receta
+          </button>
+          <a th:href="@{/recetas}" class="btn btn-outline-danger px-5">Cancelar</a>
+        </div>
+      </form>
+    </div>
+
+    <!--Footer-->
+    <footer class="container-fluid text-center mt-4 py-4 border">
+      <div>
+        <a th:href="@{/}">
+          <img
+            th:src="@{/images/logo/mon-logo.png}"
+            alt="Logo Mon"
+            height="70"
+          />
+        </a>
+      </div>
+      <div class="mt-2">
+        <a th:href="@{https://www.instagram.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/instagram.png}"
+            alt="Logo Instagram"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://x.com/?lang=es}" target="_blank">
+          <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30" />
+        </a>
+        <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/tiktok.png}"
+            alt="Logo TikTok"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://www.youtube.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/youtube.png}"
+            alt="Logo Youtube"
+            height="30"
+          />
+        </a>
+      </div>
+    </footer>
+    <!--Fin del footer-->
+  </body>
 </html>
