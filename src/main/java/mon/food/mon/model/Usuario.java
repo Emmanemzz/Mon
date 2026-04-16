@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import jakarta.persistence.*;
 
 @Entity
@@ -26,11 +26,29 @@ public class Usuario implements UserDetails {
 
     private String rol; //USER O ADMIN
 
+    private String biografia;
+
+    private String imagenPerfil;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "recetas_guardadas",
+        joinColumns =  @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "receta_id")
+    )
+
+    private List<Receta> recetasGuardadas = new ArrayList<>();
+
+
+
     //CONSTRUCTOR
     public Usuario(){
 
     }
     
+
+    //MÉTODOS
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return List.of(new SimpleGrantedAuthority(rol));
@@ -60,6 +78,8 @@ public class Usuario implements UserDetails {
     public boolean isEnabled(){
         return true;
     }
+
+
 
     //GETTER Y SETTER
     public Long getId() {
@@ -102,6 +122,29 @@ public class Usuario implements UserDetails {
         this.rol = rol;
     }
 
-    
+    public String getBiografia() {
+        return biografia;
+    }
 
+    public void setBiografia(String biografia) {
+        this.biografia = biografia;
+    }
+
+    public String getImagenPerfil() {
+        return imagenPerfil;
+    }
+
+    public void setImagenPerfil(String imagenPerfil) {
+        this.imagenPerfil = imagenPerfil;
+    }
+
+    public List<Receta> getRecetasGuardadas() {
+        return recetasGuardadas;
+    }
+
+    public void setRecetasGuardadas(List<Receta> recetasGuardadas) {
+        this.recetasGuardadas = recetasGuardadas;
+    }
+
+    
 }

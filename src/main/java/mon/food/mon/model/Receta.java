@@ -54,6 +54,21 @@ public class Receta {
     }
 
 
+    //MÉTODOS
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (!(o instanceof Receta)) return false;
+        Receta receta = (Receta) o;
+        return id != null && id.equals(receta.id);
+    }
+
+    @Override
+    public int hashCode(){
+        return getClass().hashCode();
+    }
+
+
     //GETTER Y SETTER
     public Long getId() {
         return id;

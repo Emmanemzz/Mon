@@ -4,7 +4,9 @@ import mon.food.mon.model.Receta;
 import mon.food.mon.model.Usuario;
 
 import mon.food.mon.service.RecetaService;
+import mon.food.mon.service.UsuarioService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/recetas")
@@ -66,24 +69,20 @@ public class RecetaController {
 
     }
 
-    
-    /*
-     * @GetMapping("/recetas")
-     * public String listarRecetas(Model model) {
-     * List<Receta> recetas = recetaService.listarTodas();
-     * model.addAttribute("recetas", recetas);
-     * return "recetas";
-     * }
-     */
-
     // Esto es público, ver detalle de una receta
     @GetMapping("/{id}")
-    public String verReceta(@PathVariable Long id, Model model) {
+    public String verReceta(@PathVariable Long id,
+                            @AuthenticationPrincipal Usuario usuarioActual,
+                            Model model) {
         Optional<Receta> receta = recetaService.listarPorId(id);
         if (receta.isEmpty()) {
             return "redirect:/recetas";
         }
         model.addAttribute("receta", receta.get());
+        if (usuarioActual != null) {
+            Usuario usuarioRecargado = usuarioService.buscarPorEmail(usuarioActual.getEmail());
+            model.addAttribute("usuarioActual", usuarioRecargado);
+        }
         return "recetas/detalle";
     }
 
@@ -143,5 +142,34 @@ public class RecetaController {
         }
         return "redirect:/recetas";
     }
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    //Método guardar receta
+    @PostMapping("/{id}/guardar")
+    public String guardarReceta(@PathVariable Long id,
+                                @AuthenticationPrincipal Usuario usuarioActual) {
+        
+        Optional<Receta> receta = recetaService.listarPorId(id);
+        if (receta.isPresent()) {
+            Usuario usuarioRecargado = usuarioService.buscarPorEmail(usuarioActual.getEmail());
+            usuarioService.guardarReceta(usuarioRecargado, receta.get());
+        }
+        return "redirect:/recetas/" + id;
+    }
+    
+    //Método quitar receta
+    @PostMapping("/{id}/quitarGuardado")
+    public String quitarRecetaGuardada(@PathVariable Long id,
+                                        @AuthenticationPrincipal Usuario usuarioActual) {
+        Optional<Receta> receta = recetaService.listarPorId(id);
+        if (receta.isPresent()) {
+            Usuario usuarioRecargado = usuarioService.buscarPorEmail(usuarioActual.getEmail());
+            usuarioService.quitarRecetaGuardada(usuarioRecargado, receta.get());
+        }
+        return "redirect:/recetas/" + id;
+    }
+    
 
 }

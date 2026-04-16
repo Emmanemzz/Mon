@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html
+  lang="es"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
     <title th:text="${receta.titulo}">Mon - Detalle Receta</title>
-</head>
-<body>
-        <!--HEADER MON-->
+  </head>
+  <body>
+    <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
         <!--Logo de la página-->
@@ -69,84 +72,148 @@
 
     <!--Título de la receta-->
     <section class="container my-4 text-center">
-        <h1 th:text="${receta.titulo}">Título de la receta</h1>
+      <h1 th:text="${receta.titulo}">Título de la receta</h1>
     </section>
     <!--Ingredientes-->
     <div class="col-md-4">
-        <h5>ingredientes</h5>
-        <p th:text="${receta.ingredientes}">Lista de ingredientes</p>
+      <h5>ingredientes</h5>
+      <p th:text="${receta.ingredientes}">Lista de ingredientes</p>
     </div>
 
     <!--Tiempo,dificultad,imágenes-->
     <div class="col-md-8">
-        <div class="mb-2">
-            <span>Tiempo de preparación: </span>
-            <span th:text="${receta.tiempoPreparacion}">Aquí va el tiempo de preparación</span>
+      <div class="mb-2">
+        <span>Tiempo de preparación: </span>
+        <span th:text="${receta.tiempoPreparacion}"
+          >Aquí va el tiempo de preparación</span
+        >
+      </div>
+      <div class="mb-2">
+        <span>Dificultad: </span>
+        <span th:text="${receta.dificultad}">Aquí va la dificultad</span>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img
+            th:src="${receta.imagen1}"
+            alt="Imagen de la receta"
+            class="img-fluid"
+          />
         </div>
-        <div class="mb-2">
-            <span>Dificultad: </span>
-            <span th:text="${receta.dificultad}">Aquí va la dificultad</span>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img
+            th:src="${receta.imagen2}"
+            alt="Imagen de la receta"
+            class="img-fluid"
+          />
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <img th:src="${receta.imagen1}" alt="Imagen de la receta" class="img-fluid">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <img th:src="${receta.imagen2}" alt="Imagen de la receta" class="img-fluid">
-            </div>
-        </div>
+      </div>
     </div>
 
     <!--Método de preparación-->
     <section class="container my-4">
-        <div class="border p-4">
-            <h5>Método de preparación</h5>
-            <p th:text="${receta.metodoPreparacion}">Aquí van los pasos de preparación</p>
-        </div>
+      <div class="border p-4">
+        <h5>Método de preparación</h5>
+        <p th:text="${receta.metodoPreparacion}">
+          Aquí van los pasos de preparación
+        </p>
+      </div>
     </section>
 
     <!--PRIVADO-->
-    <section class="container my-2"
-            sec:authorize="isAuthenticated()"
-            th:if="${#authentication.principal.id == receta.autor.id}">
-        
-            <a th:href="@{/recetas/{id}/editar(id=${receta.id})}" class="btn btn-outline-secondary me-2">Editar receta</a>
-        
-        <form th:action="@{/recetas/{id}/eliminar(id=${receta.id})}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-        </form>
+    <section
+      class="container my-2"
+      sec:authorize="isAuthenticated()"
+      th:if="${usuarioActual.id == receta.autor.id}"
+    >
+      <a
+        th:href="@{/recetas/{id}/editar(id=${receta.id})}"
+        class="btn btn-outline-secondary me-2"
+        >Editar receta</a
+      >
+
+      <form
+        th:action="@{/recetas/{id}/eliminar(id=${receta.id})}"
+        method="post"
+        class="d-inline"
+      >
+        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+      </form>
+    </section>
+
+    <!--PRIVADO BÓTONES-->
+    <section class="container my-2" sec:authorize="isAuthenticated()">
+      <!--Botón guardar-->
+      <form
+        th:if="${usuarioActual != null and !usuarioActual.recetasGuardadas.contains(receta)}"
+        th:action="@{/recetas/{id}/guardar(id=${receta.id})}"
+        method="post"
+        class="d-inline"
+      >
+        <button type="submit" class="btn btn-outline-primary me-2">
+          Guardar receta
+        </button>
+      </form>
+
+      <!--Botón quitar-->
+      <form
+        th:if="${usuarioActual != null and usuarioActual.recetasGuardadas.contains(receta)}"
+        th:action="@{/recetas/{id}/quitarGuardado(id=${receta.id})}"
+        method="post"
+        class="d-inline"
+      >
+        <button type="submit" class="btn btn-outline-primary me-2">
+          Quitar guardado
+        </button>
+      </form>
     </section>
 
     <!--Comentarios de la receta-->
     <section class="container my-4">
-        <h2 class="text-center">Comentarios</h2>
-        <!--Ampliar-->
+      <h2 class="text-center">Comentarios</h2>
+      <!--Ampliar-->
     </section>
 
     <!--Footer-->
     <footer class="container-fluid text-center mt-4 py-4 border">
-        <div>
-            <a th:href="@{/}">
-                <img th:src="@{/images/logo/mon-logo.png}" alt="Logo Mon" height="70">
-            </a>
-        </div>
-        <div class="mt-2">
-            <a th:href="@{https://www.instagram.com/}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/instagram.png}" alt="Logo Instagram" height="30">
-            </a>
-            <a th:href="@{https://x.com/?lang=es}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30">
-            </a>
-            <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/tiktok.png}" alt="Logo TikTok" height="30">
-            </a>
-            <a th:href="@{https://www.youtube.com/}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/youtube.png}" alt="Logo Youtube" height="30">
-            </a>
-        </div>
+      <div>
+        <a th:href="@{/}">
+          <img
+            th:src="@{/images/logo/mon-logo.png}"
+            alt="Logo Mon"
+            height="70"
+          />
+        </a>
+      </div>
+      <div class="mt-2">
+        <a th:href="@{https://www.instagram.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/instagram.png}"
+            alt="Logo Instagram"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://x.com/?lang=es}" target="_blank">
+          <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30" />
+        </a>
+        <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/tiktok.png}"
+            alt="Logo TikTok"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://www.youtube.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/youtube.png}"
+            alt="Logo Youtube"
+            height="30"
+          />
+        </a>
+      </div>
     </footer>
     <!--Fin del footer-->
-</body>
+  </body>
 </html>
