@@ -38,7 +38,7 @@ public class SecurityConfig {
                 // Rutas públicas esté registrado o no
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/inicio", "/recetas", "/recetas/**").permitAll()
-                        .requestMatchers("/registro", "/login").permitAll()
+                        .requestMatchers("/registro", "/login", "/contacto").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/error", "/error/**").permitAll()
                         .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
