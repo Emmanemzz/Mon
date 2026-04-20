@@ -45,9 +45,17 @@
           >Iniciar sesión</a
         >
         <a th:href="@{/registro}" class="button button-outline-secondary"
-          >Reigstro</a
+          >Registro</a
         >
       </div>
+      <!--Botón de cerrar sesión-->
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+          <form th:action="@{/logout}" method="post" class="d-inline">
+            <button type="submit" class="btn btn-outline-secondary">
+              Cerrar sesión
+            </button>
+          </form>
+        </div>
     </header>
     <!--Fin del header-->
 
