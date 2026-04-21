@@ -49,13 +49,13 @@
         >
       </div>
       <!--Botón de cerrar sesión-->
-        <div th:if="${#authorization.expression('isAuthenticated()')}">
-          <form th:action="@{/logout}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-outline-secondary">
-              Cerrar sesión
-            </button>
-          </form>
-        </div>
+      <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <form th:action="@{/logout}" method="post" class="d-inline">
+          <button type="submit" class="btn btn-outline-secondary">
+            Cerrar sesión
+          </button>
+        </form>
+      </div>
     </header>
     <!--Fin del header-->
 
@@ -151,6 +151,32 @@
       </form>
     </section>
 
+    <!--PRIVADO SOLO DEL ADMIN - Destacar receta-->
+    <section class="container my-2" sec:authorize="hasRole('ADMIN')">
+      <form
+        th:if="${!receta.destacada}"
+        th:action="@{/admin/recetas/{id}/destacar(id=${receta.id})}"
+        method="post"
+        class="d-inline"
+      >
+        <button type="submit" class="btn btn-warning">
+          &#127775; Marcar como destacada
+        </button>
+      </form>
+
+      <form
+        th:if="${receta.destacada}"
+        th:action="@{/admin/recetas/{id}/quitar-destacada(id=${receta.id})}"
+        method="post"
+        class="d-inline"
+      >
+        <button type="submit" class="btn btn-outline-warning">
+          &#10060; Quitar destacada
+        </button>
+      </form>
+    </section>
+    <!--FIN PRIVADO ADMIN-->
+
     <!--PRIVADO BÓTONES-->
     <section class="container my-2" sec:authorize="isAuthenticated()">
       <!--Botón guardar-->
@@ -177,6 +203,7 @@
         </button>
       </form>
     </section>
+    <!--Fin bótones privados-->
 
     <!--Comentarios de la receta-->
     <section class="container my-4">
@@ -212,18 +239,23 @@
             <p class="mt-1 mb-0" th:text="${comentario.contenido}">Contenido</p>
           </div>
 
-        <!--El botón de eliminar sólo lo ve el autor del comentario-->
-        <form
-          th:if="${usuarioActual != null and usuarioActual.id == comentario.autor.id}"
-          th:action="@{/comentarios/{id}/eliminar(id=${comentario.id})}"
-          method="post" class="d-inline"
+          <!--El botón de eliminar sólo lo ve el autor del comentario-->
+          <form
+            th:if="${usuarioActual != null and usuarioActual.id == comentario.autor.id}"
+            th:action="@{/comentarios/{id}/eliminar(id=${comentario.id})}"
+            method="post"
+            class="d-inline"
           >
-          <input type="hidden" name="recetaId" th:value="${receta.id}">
-          <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-        </form>
+            <input type="hidden" name="recetaId" th:value="${receta.id}" />
+            <button type="submit" class="btn btn-sm btn-outline-danger">
+              Eliminar
+            </button>
+          </form>
         </div>
       </div>
-      <p th:if="${#lists.isEmpty(comentarios)}" class="text-center text-muted">No hay comentarios. ¡Sé el primero en escribir uno! &#128515;</p>
+      <p th:if="${#lists.isEmpty(comentarios)}" class="text-center text-muted">
+        No hay comentarios. ¡Sé el primero en escribir uno! &#128515;
+      </p>
     </section>
     <!--Fin comentarios-->
 

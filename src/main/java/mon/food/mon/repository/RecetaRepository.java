@@ -17,4 +17,5 @@ public interface RecetaRepository extends JpaRepository<Receta, Long>{
     List<Receta> findByAlergias(String alergia);
     List<Receta> findByIngredientesContainingIgnoreCase(String ingrediente);
     List<Receta> findByTipoPlato(String tipoPlato);
+    List<Receta> findByDestacadaTrue();
 }

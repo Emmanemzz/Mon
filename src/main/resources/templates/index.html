@@ -47,13 +47,13 @@
         >
       </div>
       <!--Botón de cerrar sesión-->
-        <div th:if="${#authorization.expression('isAuthenticated()')}">
-          <form th:action="@{/logout}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-outline-secondary">
-              Cerrar sesión
-            </button>
-          </form>
-        </div>
+      <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <form th:action="@{/logout}" method="post" class="d-inline">
+          <button type="submit" class="btn btn-outline-secondary">
+            Cerrar sesión
+          </button>
+        </form>
+      </div>
     </header>
     <!--Fin del header-->
 
@@ -79,109 +79,131 @@
     <!--Recetas destacadas-->
     <section class="container my-4">
       <div class="row">
-        <div class="col-md-4">
+        <div th:each="receta : ${destacadas}" class="col-md-4">
           <div class="card">
-            <!--TODO Las tarjetas son enlaces, añadir texto enlace "ver más"-->
-            <img src="#" alt="Imagen receta" class="card-img-top" />
+            <img
+              th:src="${receta.imagen1}"
+              alt="Imagen receta"
+              class="card-img-top"
+            />
             <div class="card-body">
-              <p class="text-card">Texto de la tarjeta</p>
+              <p class="card-title fw-bold" th:text="${receta.titulo}">
+                Título
+              </p>
+              <a
+                th:href="@{/recetas/{id}(id=${receta.id})}"
+                class="btn btn-sm btn-outline-secondary"
+              >
+                Ver receta
+              </a>
             </div>
           </div>
         </div>
-
-        <div class="col-md-4">
-          <div class="card">
-            <img src="#" alt="Imagen receta" class="card-img-top" />
-            <div class="card-body">
-              <p class="text-card">Texto de la tarjeta 2</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card">
-            <img src="#" alt="Imagen receta" class="card-img-top" />
-            <div class="card-body">
-              <p class="text-card">Texto de la tarjeta 3</p>
-            </div>
-          </div>
-        </div>
+        <p th:if="${#lists.isEmpty(destacadas)}" class="text-center text-muted">
+          No hay recetas destacadas todavía.
+        </p>
       </div>
     </section>
     <!--Fin sección recetas destacadas-->
 
     <!--Categorías destacadas-->
     <section class="container my-4">
-        <h2 class="text-center">Categorías destacadas</h2>
-        <div class="row mt-3">
-            <div class="col-md-4">
-                <div class="border tex-center py-3">
-                    <span>Texto de prueba</span>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="border tex-center py-3">
-                    <span>Texto de prueba 2</span>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="border tex-center py-3">
-                    <span>Texto de prueba 3</span>
-                </div>
-            </div>
+      <h2 class="text-center">Categorías destacadas</h2>
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <div class="border tex-center py-3">
+            <span>Texto de prueba</span>
+          </div>
         </div>
+
+        <div class="col-md-4">
+          <div class="border tex-center py-3">
+            <span>Texto de prueba 2</span>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="border tex-center py-3">
+            <span>Texto de prueba 3</span>
+          </div>
+        </div>
+      </div>
     </section>
     <!--Fin sección categorías destacadas-->
 
     <!--Recetas favoritas-->
-    <section class="container ,y-4">
-        <h2 class="text-center">Recetas favoritas</h2>
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <div class="card">
-                    <img src="#" alt="Imagen receta" class="card-img-top">
-                    <div class="card-body">
-                        <p class="text-card">Nombre receta</p>
-                    </div>
-                </div>
+    <section
+      class="container my-4"
+      th:if="${#authorization.expression('isAuthenticated()')}"
+    >
+      <h2 class="text-center">Recetas favoritas</h2>
+      <div class="row mt-3">
+        <div th:each="receta : ${recetasGuardadas}" class="col-md-6">
+          <div class="card">
+            <img
+              th:src="${receta.imagen1}"
+              alt="Imagen receta"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <p class="card-title fw-bold" th:text="${receta.titulo}">
+                Nombre receta
+              </p>
+              <a
+                th:href="@{/recetas/{id}(id=${receta.id})}"
+                class="btn btn-sm btn-outline-secondary"
+              >
+                Ver receta
+              </a>
             </div>
-
-            <div class="col-md-6">
-                <div class="card">
-                    <img src="#" alt="Imagen receta" class="card-img-top">
-                    <div class="card-body">
-                        <p class="text-card">Nombre receta 2</p>
-                    </div>
-                </div>
-            </div>
-
+          </div>
         </div>
+        <p
+          th:if="${#lists.isEmpty(recetasGuardadas)}"
+          class="text-center text-muted"
+        >
+          Todavía no has guardado ninguna receta.
+        </p>
+      </div>
     </section>
     <!--Fin sección recetas favoritas-->
-
     <!--Footer-->
     <footer class="container-fluid text-center mt-4 py-4 border">
-        <div>
-            <a th:href="@{/}">
-                <img th:src="@{/images/logo/mon-logo.png}" alt="Logo Mon" height="70">
-            </a>
-        </div>
-        <div class="mt-2">
-            <a th:href="@{https://www.instagram.com/}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/instagram.png}" alt="Logo Instagram" height="30">
-            </a>
-            <a th:href="@{https://x.com/?lang=es}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30">
-            </a>
-            <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/tiktok.png}" alt="Logo TikTok" height="30">
-            </a>
-            <a th:href="@{https://www.youtube.com/}" target="_blank">
-                <img th:src="@{/images/iconos/rrss/youtube.png}" alt="Logo Youtube" height="30">
-            </a>
-        </div>
+      <div>
+        <a th:href="@{/}">
+          <img
+            th:src="@{/images/logo/mon-logo.png}"
+            alt="Logo Mon"
+            height="70"
+          />
+        </a>
+      </div>
+      <div class="mt-2">
+        <a th:href="@{https://www.instagram.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/instagram.png}"
+            alt="Logo Instagram"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://x.com/?lang=es}" target="_blank">
+          <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30" />
+        </a>
+        <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/tiktok.png}"
+            alt="Logo TikTok"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://www.youtube.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/youtube.png}"
+            alt="Logo Youtube"
+            height="30"
+          />
+        </a>
+      </div>
     </footer>
     <!--Fin del footer-->
   </body>

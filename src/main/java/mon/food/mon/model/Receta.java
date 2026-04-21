@@ -33,6 +33,8 @@ public class Receta {
 
     private String dificultad;
 
+
+    @Column(length = 5000)
     private String metodoPreparacion;
 
     private String tipoPlato;
@@ -40,6 +42,8 @@ public class Receta {
     private String imagen1;
 
     private String imagen2;
+
+    private boolean destacada = false;
 
     //CONSTRUCTOR
     public Receta() {
@@ -180,6 +184,14 @@ public class Receta {
 
     public void setTipoPlato(String tipoPlato) {
         this.tipoPlato = tipoPlato;
+    }
+
+    public boolean isDestacada() {
+        return destacada;
+    }
+
+    public void setDestacada(boolean destacada) {
+        this.destacada = destacada;
     }
 
     

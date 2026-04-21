@@ -87,4 +87,9 @@ public class RecetaService {
     public List<Receta> listarPorUsuario(Usuario usuario){
         return recetaRepository.findByAutor(usuario);
     }
+
+    //ADMIN método para las recetas destacadas
+    public List<Receta> listarDestacadas(){
+        return recetaRepository.findByDestacadaTrue();
+    }
 }
