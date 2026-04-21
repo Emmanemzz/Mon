@@ -82,7 +82,7 @@ public class RecetaController {
                             Model model) {
         Optional<Receta> receta = recetaService.listarPorId(id);
         if (receta.isEmpty()) {
-            return "redirect:/recetas";
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND);
         }
         model.addAttribute("receta", receta.get());
         model.addAttribute("comentarios", comentarioService.obtenerPorReceta(receta.get()));
