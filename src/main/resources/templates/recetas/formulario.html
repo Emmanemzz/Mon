@@ -45,13 +45,13 @@
         >
       </div>
       <!--Botón de cerrar sesión-->
-        <div th:if="${#authorization.expression('isAuthenticated()')}">
-          <form th:action="@{/logout}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-outline-secondary">
-              Cerrar sesión
-            </button>
-          </form>
-        </div>
+      <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <form th:action="@{/logout}" method="post" class="d-inline">
+          <button type="submit" class="btn btn-outline-secondary">
+            Cerrar sesión
+          </button>
+        </form>
+      </div>
     </header>
     <!--Fin del header-->
 
@@ -174,57 +174,111 @@
 
         <!--EXTRA ETIQUETAS-->
         <div class="row mt-3">
-          <div class="col-md-6">
-            <div class="input-group mb-2">
-              <span class="input-group-text">Tipo de cocina</span>
-              <input
-                type="text"
-                th:field="*{pais}"
-                placeholder="Mediterránea, Oriental..."
-                class="form-control"
-              />
+          <!--Tipo de cocina-->
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Tipo de cocina</label>
+            <div
+              th:each="opcion : ${ {'Mediterránea', 'Oriental', 'Latinoamericana', 'Nórdica'} }"
+            >
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  th:name="pais"
+                  th:value="${opcion}"
+                  th:id="'cocina-' + ${opcion}"
+                  th:checked="${receta.pais == opcion}"
+                />
+                <label
+                  class="form-check-label"
+                  th:for="'cocina-' + ${opcion}"
+                  th:text="${opcion}"
+                ></label>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="input-group mb-2">
-              <span class="input-group-text">Tipo de dieta</span>
-              <input
-                type="text"
-                th:field="*{tipoDieta}"
-                placeholder="Vegetariana, Vegana..."
-                class="form-control"
-              />
+
+          <!--Tipo de dieta-->
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Tipo de dieta</label>
+            <div
+              th:each="opcion : ${ {'Vegana', 'Vegetariana', 'Flexitariana'} }"
+            >
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  th:name="tipoDieta"
+                  th:value="${opcion}"
+                  th:id="'dieta-' + ${opcion}"
+                  th:checked="${receta.tipoDieta == opcion}"
+                />
+                <label
+                  class="form-check-label"
+                  th:for="'dieta-' + ${opcion}"
+                  th:text="${opcion}"
+                ></label>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="input-group mb-2">
-              <span class="input-group-text">Tipo de plato</span>
-              <input
-                type="text"
-                th:field="*{tipoPlato}"
-                placeholder="Entrante, Principal..."
-                class="form-control"
-              />
+
+          <!--Intolerancias/alergias-->
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Intolerancias/alergias</label>
+            <div
+              th:each="opcion : ${ {'Sin gluten', 'Lácteos', 'Frutos secos', 'Huevo'} }"
+            >
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  th:name="alergias"
+                  th:value="${opcion}"
+                  th:id="'alergia-' + ${opcion}"
+                  th:checked="${receta.alergias == opcion}"
+                />
+                <label
+                  class="form-check-label"
+                  th:for="'alergia-' + ${opcion}"
+                  th:text="${opcion}"
+                ></label>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="input-group mb-2">
-              <span class="input-group-text">Alergias</span>
-              <input
-                type="text"
-                th:field="*{alergias}"
-                placeholder="Gluten, Lactosa..."
-                class="form-control"
-              />
+
+          <!--Tipo de plato-->
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Tipo de plato</label>
+            <div
+              th:each="opcion : ${ {'Entrante', 'Principal', 'Postre', 'Bebida'} }"
+            >
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  th:name="tipoPlato"
+                  th:value="${opcion}"
+                  th:id="'plato-' + ${opcion}"
+                  th:checked="${receta.tipoPlato == opcion}"
+                />
+                <label
+                  class="form-check-label"
+                  th:for="'plato-' + ${opcion}"
+                  th:text="${opcion}"
+                ></label>
+              </div>
             </div>
           </div>
         </div>
+        <!--Fin extra etiquetas-->
 
         <div class="text-center mt-4">
           <button type="submit" class="btn btn-outline-secondary px-5">
             Guardar receta
           </button>
-          <a th:href="@{/recetas}" class="btn btn-outline-danger px-5">Cancelar</a>
+          <a th:href="@{/recetas}" class="btn btn-outline-danger px-5"
+            >Cancelar</a
+          >
         </div>
       </form>
     </div>

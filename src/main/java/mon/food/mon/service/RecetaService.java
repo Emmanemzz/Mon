@@ -71,7 +71,7 @@ public class RecetaService {
 
     //Método para buscar por alergias
     public List<Receta> buscarPorAlergias(String alergia){
-        return recetaRepository.findByTituloContainingIgnoreCase(alergia);
+        return recetaRepository.findByAlergias(alergia);
     }
 
     //Método para buscar por ingredientes
