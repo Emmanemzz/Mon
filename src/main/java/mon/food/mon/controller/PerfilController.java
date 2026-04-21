@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
+
+
 @Controller
 @RequestMapping("/perfil")
 public class PerfilController {
@@ -47,6 +49,21 @@ public class PerfilController {
         return "redirect:/perfil";
     }
     
+    //Listado recetas propias del usuario 
+    @GetMapping("/mis-recetas")
+    public String misRecetas(@AuthenticationPrincipal Usuario usuarioActual, Model model) {
+        Usuario usuario = usuarioService.buscarPorEmail(usuarioActual.getEmail());
+        model.addAttribute("recetas", usuarioService.obtenerRecetasPorUsuario(usuario));
+        return "perfil/mis-recetas";
+    }
+    
+    //Listado recetas guardadas de otros usuarios
+    @GetMapping("/recetas-guardadas")
+    public String recetasGuardadas(@AuthenticationPrincipal Usuario usuarioActual, Model model) {
+        Usuario usuario = usuarioService.buscarPorEmail(usuarioActual.getEmail());
+        model.addAttribute("recetasGuardadas", usuario.getRecetasGuardadas());
+        return "perfil/recetas-guardadas";
+    }
     
     
 }

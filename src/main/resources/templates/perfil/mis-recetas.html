@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <title>Mon - Home</title>
+  </head>
+  <!--TODO
+    Falta agregar estilos-->
+  <body>
+    <!--HEADER MON-->
+    <header class="container-fluid py-2">
+      <div class="row align-items-center">
+        <!--Logo de la página-->
+        <div class="col-auto">
+          <a th:href="@{/}">
+            <img
+              th:src="@{/images/logo/mon-logo.png}"
+              alt="Logo Mon"
+              height="70"
+            />
+          </a>
+        </div>
+      </div>
+      <!--Barra de búsqueda recetas-->
+      <div class="col">
+        <form th:action="@{/recetas/buscar}" method="get">
+          <input
+            type="text"
+            name="ingrediente"
+            class="form-control"
+            placeholder="Busca una receta..."
+          />
+        </form>
+      </div>
+      <!--Botones de login y registro-->
+      <div class="col-auto">
+        <a th:href="@{/login}" class="button button-outline-secondary me-2"
+          >Iniciar sesión</a
+        >
+        <a th:href="@{/registro}" class="button button-outline-secondary"
+          >Registro</a
+        >
+      </div>
+    </header>
+    <!--Fin del header-->
+
+    <!--Menú de navegación-->
+    <nav class="container-fluid">
+      <div class="row text-center">
+        <div class="col">
+          <a th:href="@{/}" class="text-decoration-none">Inicio</a>
+        </div>
+        <div class="col">
+          <a th:href="@{/recetas}" class="text-decoration-none">Recetas</a>
+        </div>
+        <div class="col">
+          <a th:href="@{/perfil}" class="text-decoration-none">Perfil</a>
+        </div>
+        <div class="col">
+          <a th:href="@{/contacto}" class="text-decoration-none">Contacto</a>
+        </div>
+      </div>
+    </nav>
+    <!--Fin menú de navegación-->
+
+    <!--Listado recetas propias-->
+    <section class="container my-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Mis recetas</h2>
+        <a th:href="@{/perfil}" class="btn btn-outline-secondary"
+          >← Volver al perfil</a
+        >
+      </div>
+
+      <p th:if="${#lists.isEmpty(recetas)}" class="text-muted">
+        Aún no has creado ninguna receta.
+      </p>
+
+      <div class="row">
+        <div class="col-md-4 mb-3" th:each="receta : ${recetas}">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">
+                <a
+                  th:href="@{/recetas/{id}(id=${receta.id})}"
+                  th:text="${receta.titulo}"
+                  class="text-decoration-none"
+                  >Título</a
+                >
+              </h5>
+              <p class="card-text text-muted" th:text="${receta.pais}">País</p>
+              <div class="mt-auto d-flex gap-2">
+                <a
+                  th:href="@{/recetas/{id}/editar(id=${receta.id})}"
+                  class="btn btn-outline-secondary btn-sm flex-fill"
+                  >Editar</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm flex-fill"
+                  onclick="confirmarEliminar(this)"
+                  th:data-id="${receta.id}"
+                  th:data-titulo="${receta.titulo}"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Ventana confirmación eliminar-->
+    <div class="modal fade" id="modalEliminar" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmar eliminación</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro de que quieres eliminar la receta
+            <strong id="tituloReceta"></strong>? Esta acción no se puede
+            deshacer.
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <form id="formEliminar" method="post">
+              <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"
+              />
+              <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer-->
+    <footer class="container-fluid text-center mt-4 py-4 border">
+      <div>
+        <a th:href="@{/}">
+          <img
+            th:src="@{/images/logo/mon-logo.png}"
+            alt="Logo Mon"
+            height="70"
+          />
+        </a>
+      </div>
+      <div class="mt-2">
+        <a th:href="@{https://www.instagram.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/instagram.png}"
+            alt="Logo Instagram"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://x.com/?lang=es}" target="_blank">
+          <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30" />
+        </a>
+        <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/tiktok.png}"
+            alt="Logo TikTok"
+            height="30"
+          />
+        </a>
+        <a th:href="@{https://www.youtube.com/}" target="_blank">
+          <img
+            th:src="@{/images/iconos/rrss/youtube.png}"
+            alt="Logo Youtube"
+            height="30"
+          />
+        </a>
+      </div>
+    </footer>
+    <!--Fin del footer-->
+  </body>
+</html>
