@@ -1,0 +1,19 @@
+footer{
+    background-color: var(--fondo-claro);
+    border-top: 2px solid var(--verde-mon) !important;
+}
+
+footer a{
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 0.8rem;
+}
+
+footer img{
+    transition: opacity 0.2s ease;
+    display: block;
+}
+
+footer img:hover{
+    opacity: 0.7;
+}

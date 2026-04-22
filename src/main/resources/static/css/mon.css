@@ -1,0 +1,45 @@
+/*Imports*/
+@import url("header.css");
+@import url("footer.css");
+
+:root {
+  --verde-mon: #4a7c59;
+  --verde-mon-oscuro: #3a6347;
+  --verde-mon-claro: #e8f5e9;
+  --texto-oscuro: #2d2d2d;
+  --texto-muted: #6c757d;
+  --fondo-claro: #f9f6f1;
+}
+
+body{
+    font-family: 'Lato', sans-serif;
+    color: var(--texto-oscuro);
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main,section{
+    flex: 1;
+}
+
+.btn-success{
+    background-color: var(--verde-mon);
+    border-color: var(--verde-mon);
+}
+
+.btn-success:hover{
+    background-color: var(--verde-mon-oscuro);
+    border-color: var(--verde-mon-oscuro);
+}
+
+.btn-outline-success{
+    color: var(--verde-mon);
+    border-color: var(--verde-mon);
+}
+
+.btn-outline-success:hover{
+    background-color: var(--verde-mon);
+    border-color: var(--verde-mon);
+}

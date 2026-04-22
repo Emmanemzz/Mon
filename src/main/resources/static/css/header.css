@@ -1,0 +1,40 @@
+/*Header*/
+header{
+    border-bottom: 2px solid var(--verde-mon);
+}
+
+header .btn-outline-secondary{
+    color: var(--verde-mon);
+    border-color: var(--verde-mon);
+    font-weight: 700;
+}
+
+header .btn-outline-secondary:hover{
+    background-color: var(--verde-mon);
+    border-color: var(--verde-mon);
+    color: #ffffff;
+}
+
+/*Barra de navegación*/
+nav.navbar{
+    background-color: var(--verde-mon);
+}
+
+nav.navbar .nav-link{
+    color: #ffffff !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 0.6rem 5rem !important;
+}
+
+nav.navbar .nav-link:hover{
+    color: var(--verde-mon-claro) !important;
+}
+
+nav.navbar .nav-item {
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+nav.navbar .nav-item:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
