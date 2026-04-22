@@ -31,16 +31,7 @@
         </div>
       </div>
       <!--Barra de búsqueda recetas-->
-      <div class="col">
-        <form th:action="@{/buscar}" method="get">
-          <input
-            type="text"
-            name="q"
-            class="form-control"
-            placeholder="Busca una receta..."
-          />
-        </form>
-      </div>
+      <div class="col"></div>
       <!--Botones de login y registro-->
       <div class="col-auto">
         <a th:href="@{/login}" class="button button-outline-secondary me-2"
@@ -274,6 +265,17 @@
 
         <!--Tarjetas-->
         <main class="col-md-9">
+          <!--Barra de búsqueda-->
+          <form th:action="@{/recetas}" method="get" class="d-flex gap-2 mb-3">
+            <input
+              type="text"
+              name="q"
+              class="form-control"
+              placeholder="Busca una receta o usuario..."
+              th:value="${q}"
+            />
+            <button type="submit" class="btn btn-success">Buscar</button>
+          </form>
           <!--PRIVADO botón nueva receta-->
           <div class="mb-3" sec:authorize="isAuthenticated()">
             <a th:href="@{/recetas/nueva}" class="btn btn-success"
@@ -281,7 +283,37 @@
             >
           </div>
 
-          <!---->
+          <!--Resultados de usuarios-->
+          <div
+            th:if="${usuarios != null and !#lists.isEmpty(usuarios)}"
+            class="mb-4"
+          >
+            <h5 class="mb-3">Usuarios encontrados</h5>
+            <div class="row">
+              <div class="col-md-4 mb-3" th:each="u : ${usuarios}">
+                <div class="card h-100">
+                  <div class="card-body d-flex align-items-center gap-3">
+                    <img
+                      th:src="${u.imagenPerfil != null} ? ${u.imagenPerfil} : @{/images/default-avatar.png}"
+                      alt="Foto de perfil"
+                      class="rounded-circle"
+                      style="width: 50px; height: 50px; object-fit: cover"
+                    />
+                    <div>
+                      <h6 class="mb-1" th:text="${u.nombre}">Nombre</h6>
+                      <a
+                        th:href="@{/usuarios/{id}(id=${u.id})}"
+                        class="btn btn-outline-secondary btn-sm"
+                        >Ver perfil</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Recetas-->
           <div class="row">
             <div class="col-md-4 mb-4" th:each="receta : ${recetas}">
               <div class="card h-100">
