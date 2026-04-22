@@ -7,6 +7,16 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!--Font Lato-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/mon.css}" />
     <title>Mon - Error 403</title>
   </head>
   <!--TODO
@@ -15,7 +25,7 @@
     <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
-        <!--Logo de la página-->
+        <!-- Logo Mon-->
         <div class="col-auto">
           <a th:href="@{/}">
             <img
@@ -25,35 +35,40 @@
             />
           </a>
         </div>
-      </div>
-      <!--Barra de búsqueda recetas-->
-      <div class="col">
-        <form th:action="@{/recetas}" method="get">
-          <input
-            type="text"
-            name="q"
-            class="form-control"
-            placeholder="Busca una receta o usuario..."
-            th:value="${q}"
-          />
-        </form>
-      </div>
-      <!--Botones de login y registro-->
-      <div class="col-auto">
-        <a th:href="@{/login}" class="button button-outline-secondary me-2"
-          >Iniciar sesión</a
-        >
-        <a th:href="@{/registro}" class="button button-outline-secondary"
-          >Registro</a
-        >
-      </div>
-      <!--Botón de cerrar sesión-->
-      <div th:if="${#authorization.expression('isAuthenticated()')}">
-        <form th:action="@{/logout}" method="post" class="d-inline">
-          <button type="submit" class="btn btn-outline-secondary">
-            Cerrar sesión
-          </button>
-        </form>
+
+        <!-- Barra de búsqueda de recetas o usuarios-->
+        <div class="col">
+          <form th:action="@{/recetas}" method="get">
+            <input
+              type="text"
+              name="q"
+              class="form-control"
+              placeholder="Busca una receta o usuario..."
+              th:value="${q}"
+            />
+          </form>
+        </div>
+
+        <!-- Botone -->
+        <div class="col-auto">
+          <th:block th:if="${#authorization.expression('isAnonymous()')}">
+            <!--Button iniciar sesión-->
+            <a th:href="@{/login}" class="btn btn-outline-secondary me-2"
+              >Iniciar sesión</a
+            >
+            <!--Butto registro-->
+            <a th:href="@{/registro}" class="btn btn-outline-secondary"
+              >Registro</a
+            >
+          </th:block>
+          <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <form th:action="@{/logout}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-outline-secondary">
+                Cerrar sesión
+              </button>
+            </form>
+          </th:block>
+        </div>
       </div>
     </header>
     <!--Fin del header-->
@@ -77,7 +92,7 @@
       <div>
         <a th:href="@{/}">
           <img
-            th:src="@{/images/logo/mon-logo.png}"
+            th:src="@{/images/logo/mon-logo-sinfondo.png}"
             alt="Logo Mon"
             height="70"
           />
