@@ -34,7 +34,7 @@ public class RecetaController {
 
     // Esto es público, listamos todas las recetas disponibles y filtros
     @GetMapping
-    public String listarRecetas(@RequestParam(required = false) String ingrediente,
+    public String listarRecetas(@RequestParam(required = false) String q,
             @RequestParam(required = false) String pais,
             @RequestParam(required = false) String tipoDieta,
             @RequestParam(required = false) String alergia,
@@ -43,29 +43,27 @@ public class RecetaController {
 
         List<Receta> resultadosBusqueda;
         // Sin filtros
-        if ((ingrediente == null || ingrediente.isBlank()) &&
-                (pais == null || pais.isBlank()) &&
-                (tipoDieta == null || tipoDieta.isBlank()) &&
-                (alergia == null || alergia.isBlank()) &&
-                (tipoPlato == null || tipoPlato.isBlank())) {
-            resultadosBusqueda = recetaService.listarTodas();
-        } else {// Con filtros
-            if (ingrediente != null && !ingrediente.isBlank()) {
-                resultadosBusqueda = recetaService.buscarPorIngredientes(ingrediente);
-            } else if (pais != null && !pais.isBlank()) {
-                resultadosBusqueda = recetaService.buscarPorPais(pais);
-            } else if (tipoDieta != null && !tipoDieta.isBlank()) {
-                resultadosBusqueda = recetaService.buscarPorTipoDieta(tipoDieta);
-            } else if (alergia != null && !alergia.isBlank()) {
-                resultadosBusqueda = recetaService.buscarPorAlergias(alergia);
-            } else if (tipoPlato != null && !tipoPlato.isBlank()) {
-                resultadosBusqueda = recetaService.buscarPorTipoPlato(tipoPlato);
-            } else {
-                resultadosBusqueda = recetaService.listarTodas();
-            }
+        if (q != null && !q.isBlank()) {
+        resultadosBusqueda = recetaService.buscarPorTituloOIngredientes(q);
+        model.addAttribute("usuarios", usuarioService.buscarPorNombre(q));
+    } else if ((pais == null || pais.isBlank()) &&
+            (tipoDieta == null || tipoDieta.isBlank()) &&
+            (alergia == null || alergia.isBlank()) &&
+            (tipoPlato == null || tipoPlato.isBlank())) {
+        resultadosBusqueda = recetaService.listarTodas();
+    } else {
+        if (pais != null && !pais.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorPais(pais);
+        } else if (tipoDieta != null && !tipoDieta.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorTipoDieta(tipoDieta);
+        } else if (alergia != null && !alergia.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorAlergias(alergia);
+        } else {
+            resultadosBusqueda = recetaService.buscarPorTipoPlato(tipoPlato);
         }
+    }
         model.addAttribute("recetas", resultadosBusqueda);
-        model.addAttribute("ingrediente", ingrediente);
+        model.addAttribute("q", q);
         model.addAttribute("pais", pais);
         model.addAttribute("tipoDieta", tipoDieta);
         model.addAttribute("alergia", alergia);

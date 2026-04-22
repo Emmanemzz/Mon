@@ -25,12 +25,13 @@ public class SecurityConfig {
 
     /* @Bean se usa dentro de clases @Configuration */
 
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(passwordEncoder);
-        provider.setUserDetailsService(usuarioService);
-        return new ProviderManager(provider);
-    }
+   @Bean
+public AuthenticationManager authenticationManager() {
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    provider.setUserDetailsService(usuarioService);
+    provider.setPasswordEncoder(passwordEncoder);
+    return new ProviderManager(provider);
+}
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,10 +39,11 @@ public class SecurityConfig {
                 // Rutas públicas esté registrado o no
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/inicio", "/recetas", "/recetas/**").permitAll()
-                        .requestMatchers("/registro", "/login", "/contacto").permitAll()
+                        .requestMatchers("/registro", "/login", "/contacto", "/usuarios/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/error", "/error/**").permitAll()
                         .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form

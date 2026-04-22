@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
-
 @Controller
 @RequestMapping("/perfil")
 public class PerfilController {
@@ -27,6 +26,7 @@ public class PerfilController {
     public String verPerfil(@AuthenticationPrincipal Usuario usuarioActual, Model model) {
         Usuario usuario = usuarioService.buscarPorEmail(usuarioActual.getEmail());
         model.addAttribute("usuario", usuario);
+        model.addAttribute("usuarioActual", usuarioActual);
         model.addAttribute("recetas", usuarioService.obtenerRecetasPorUsuario(usuario));
         model.addAttribute("recetasGuardadas", usuario.getRecetasGuardadas());
         return "perfil/perfil";

@@ -18,4 +18,5 @@ public interface RecetaRepository extends JpaRepository<Receta, Long>{
     List<Receta> findByIngredientesContainingIgnoreCase(String ingrediente);
     List<Receta> findByTipoPlato(String tipoPlato);
     List<Receta> findByDestacadaTrue();
+    List<Receta> findByTituloContainingIgnoreCaseOrIngredientesContainingIgnoreCase(String titulo, String ingredientes);
 }

@@ -78,4 +78,17 @@ public class UsuarioService implements UserDetailsService {
         usuario.setImagenPerfil(datosEditados.getImagenPerfil());
         usuarioRepository.save(usuario);
     }
+
+    //métodos para buscar usuarios
+    public List<Usuario> buscarPorNombre(String nombre){
+        return usuarioRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    public Optional<Usuario> buscarPorId(Long id){
+        if (id == null) {
+            throw new IllegalArgumentException("El id no puede estar vacío");
+        }
+        return usuarioRepository.findById(id);
+    }
+
 }
