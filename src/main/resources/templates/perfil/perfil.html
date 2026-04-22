@@ -28,10 +28,10 @@
       </div>
       <!--Barra de búsqueda recetas-->
       <div class="col">
-        <form th:action="@{/recetas/buscar}" method="get">
+        <form th:action="@{/buscar}" method="get">
           <input
             type="text"
-            name="ingrediente"
+            name="q"
             class="form-control"
             placeholder="Busca una receta..."
           />
@@ -100,7 +100,10 @@
           />
           <h2 th:text="${usuario.nombre}">Nombre</h2>
           <p th:text="${usuario.biografia}" class="text-muted">Biografia</p>
-          <a th:href="@{/perfil/editar}" class="btn btn-outline-secondary"
+          <a
+            th:if="${usuario.id == usuarioActual?.id}"
+            th:href="@{/perfil/editar}"
+            class="btn btn-outline-secondary"
             >Editar perfil</a
           >
         </div>
@@ -109,14 +112,19 @@
         <div class="col-md-9">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Mis recetas</h3>
-            <a th:href="@{/recetas/nueva}" class="btn btn-success">
-              + Nueva receta
-            </a>
-            <a
-              th:href="@{/perfil/mis-recetas}"
-              class="btn btn-outline-danger btn-sm"
-              >Eliminar receta</a
+            <div
+              th:if="${usuario.id == usuarioActual?.id}"
+              class="d-flex gap-2"
             >
+              <a
+                th:href="@{/perfil/mis-recetas}"
+                class="btn btn-outline-danger btn-sm"
+                >Eliminar receta</a
+              >
+              <a th:href="@{/recetas/nueva}" class="btn btn-success"
+                >+ Nueva receta</a
+              >
+            </div>
           </div>
           <div class="row">
             <div class="col-md-4 mb-3" th:each="receta : ${recetas}">
@@ -140,43 +148,47 @@
           <p th:if="${#lists.isEmpty(recetas)}" class="text-muted">
             Aún no has creado ninguna receta.
           </p>
+          <!--Fin recetas propias-->
 
           <!--Recetas guardadas de otros usuarios-->
-          <div
-            class="d-flex justify-content-between align-items-center mt-4 mb-3"
-          >
-            <h3 class="mb-0">Recetas guardadas</h3>
-            <a
-              th:href="@{/perfil/recetas-guardadas}"
-              class="btn btn-outline-danger btn-sm"
-              >Quitar guardadas</a
+          <div th:if="${usuario.id == usuarioActual?.id}">
+            <div
+              class="d-flex justify-content-between align-items-center mt-4 mb-3"
             >
-          </div>
-          <div class="row">
-            <div class="col-md-4 mb-3" th:each="receta : ${recetasGuardadas}">
-              <div class="card h-100">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a
-                      th:href="@{/recetas/{id}(id=${receta.id})}"
-                      th:text="${receta.titulo}"
-                      class="text-decoration-none"
-                      >Título</a
-                    >
-                  </h5>
-                  <p class="card-text text-muted" th:text="${receta.pais}">
-                    País
-                  </p>
+              <h3 class="mb-0">Recetas guardadas</h3>
+              <a
+                th:href="@{/perfil/recetas-guardadas}"
+                class="btn btn-outline-danger btn-sm"
+                >Quitar guardadas</a
+              >
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3" th:each="receta : ${recetasGuardadas}">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a
+                        th:href="@{/recetas/{id}(id=${receta.id})}"
+                        th:text="${receta.titulo}"
+                        class="text-decoration-none"
+                        >Título</a
+                      >
+                    </h5>
+                    <p class="card-text text-muted" th:text="${receta.pais}">
+                      País
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
+            <p th:if="${#lists.isEmpty(recetasGuardadas)}" class="text-muted">
+              No tienes recetas guardadas.
+            </p>
           </div>
-          <p th:if="${#lists.isEmpty(recetasGuardadas)}" class="text-muted">
-            No tienes recetas guardadas.
-          </p>
         </div>
       </div>
     </section>
+    <!--Fin recetas guardadas de otros usuarios-->
 
     <!--Footer-->
     <footer class="container-fluid text-center mt-4 py-4 border">

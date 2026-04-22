@@ -26,10 +26,10 @@
       </div>
       <!--Barra de búsqueda recetas-->
       <div class="col">
-        <form th:action="@{/recetas}" method="get">
+        <form th:action="@{/buscar}" method="get">
           <input
             type="text"
-            name="ingrediente"
+            name="q"
             class="form-control"
             placeholder="Busca una receta..."
           />
