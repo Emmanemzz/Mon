@@ -11,6 +11,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!--Font Lato-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/mon.css}" />
+    <link rel="stylesheet" th:href="@{/css/lista.css}" />
     <title>Mon - Recetas</title>
   </head>
   <body>
@@ -19,7 +30,7 @@
     <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
-        <!--Logo de la página-->
+        <!-- Logo Mon-->
         <div class="col-auto">
           <a th:href="@{/}">
             <img
@@ -29,233 +40,479 @@
             />
           </a>
         </div>
-      </div>
-      <!--Barra de búsqueda recetas-->
-      <div class="col"></div>
-      <!--Botones de login y registro-->
-      <div class="col-auto">
-        <a th:href="@{/login}" class="button button-outline-secondary me-2"
-          >Iniciar sesión</a
-        >
-        <a th:href="@{/registro}" class="button button-outline-secondary"
-          >Registro</a
-        >
-      </div>
-      <!--Botón de cerrar sesión-->
-      <div th:if="${#authorization.expression('isAuthenticated()')}">
-        <form th:action="@{/logout}" method="post" class="d-inline">
-          <button type="submit" class="btn btn-outline-secondary">
-            Cerrar sesión
-          </button>
-        </form>
+
+        <div class="col"></div>
+
+        <!-- Botones -->
+        <div class="col-auto">
+          <th:block th:if="${#authorization.expression('isAnonymous()')}">
+            <a th:href="@{/login}" class="btn btn-outline-secondary me-2"
+              >Iniciar sesión</a
+            >
+            <a th:href="@{/registro}" class="btn btn-outline-secondary"
+              >Registro</a
+            >
+          </th:block>
+          <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <form th:action="@{/logout}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-outline-secondary">
+                Cerrar sesión
+              </button>
+            </form>
+          </th:block>
+        </div>
       </div>
     </header>
     <!--Fin del header-->
 
     <!--Menú de navegación-->
-    <nav class="container-fluid">
-      <div class="row text-center">
-        <div class="col">
-          <a th:href="@{/}" class="text-decoration-none">Inicio</a>
-        </div>
-        <div class="col">
-          <a th:href="@{/recetas}" class="text-decoration-none">Recetas</a>
-        </div>
-        <div class="col">
-          <a th:href="@{/perfil}" class="text-decoration-none">Perfil</a>
-        </div>
-        <div class="col">
-          <a th:href="@{/contacto}" class="text-decoration-none">Contacto</a>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <!-- Botón hamburguesa para móvil -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#menuPrincipal"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links de navegación -->
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a th:href="@{/}" class="nav-link">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/recetas}" class="nav-link">Recetas</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/perfil}" class="nav-link">Perfil</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/contacto}" class="nav-link">Contacto</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
     <!--Fin menú de navegación-->
 
     <!---->
-    <div class="container my-4">
+    <div class="container my-4 flex-grow-1">
       <div class="row">
         <!--Filtros-->
         <aside class="col-md-3">
           <form th:action="@{/recetas}" method="get">
             <h6>Filtrar búsqueda</h6>
+
             <!--Filtro cocina-->
-            <div class="mb-3">
-              <p class="mb-1">Tipo de cocina:</p>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="pais"
-                  value="Mediterránea"
-                  class="form-check-input"
-                  th:checked="${pais == 'Mediterránea'}"
-                />
-                <label class="form-check-label">Mediterránea</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="pais"
-                  value="Oriental"
-                  class="form-check-input"
-                  th:checked="${pais == 'Oriental'}"
-                />
-                <label class="form-check-label">Oriental</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="pais"
-                  value="Latinoamericana"
-                  class="form-check-input"
-                  th:checked="${pais == 'Latinoamericana'}"
-                />
-                <label class="form-check-label">Latinoamericana</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="pais"
-                  value="Nórdica"
-                  class="form-check-input"
-                  th:checked="${pais == 'Nórdica'}"
-                />
-                <label class="form-check-label">Nórdica</label>
+            <div class="mb-2">
+              <button
+                class="btn btn-filtro-titulo w-100 text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtro-cocina"
+              >
+                Tipo de cocina
+                <i class="fa-solid fa-chevron-down float-end"></i>
+              </button>
+              <div class="collapse" id="filtro-cocina">
+                <div class="pt-2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="pais"
+                      value="Mediterránea"
+                      class="form-check-input"
+                      id="pais-mediterranea"
+                      th:checked="${pais == 'Mediterránea'}"
+                    />
+                    <label class="form-check-label" for="pais-mediterranea"
+                      >Mediterránea</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="pais"
+                      value="Oriental"
+                      class="form-check-input"
+                      id="pais-oriental"
+                      th:checked="${pais == 'Oriental'}"
+                    />
+                    <label class="form-check-label" for="pais-oriental"
+                      >Oriental</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="pais"
+                      value="Latinoamericana"
+                      class="form-check-input"
+                      id="pais-latinoamericana"
+                      th:checked="${pais == 'Latinoamericana'}"
+                    />
+                    <label class="form-check-label" for="pais-latinoamericana"
+                      >Latinoamericana</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="pais"
+                      value="Nórdica"
+                      class="form-check-input"
+                      id="pais-nordica"
+                      th:checked="${pais == 'Nórdica'}"
+                    />
+                    <label class="form-check-label" for="pais-nordica"
+                      >Nórdica</label
+                    >
+                  </div>
+                </div>
               </div>
             </div>
 
             <!--Tipo de dieta-->
-            <div class="mb-3">
-              <p class="mb-1">Tipo de dieta:</p>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoDieta"
-                  value="Vegana"
-                  class="form-check-input"
-                  th:checked="${tipoDieta == 'Vegana'}"
-                />
-                <label class="form-check-label">Vegana</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoDieta"
-                  value="Vegetariana"
-                  class="form-check-input"
-                  th:checked="${tipoDieta == 'Vegetariana'}"
-                />
-                <label class="form-check-label">Vegetariana</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoDieta"
-                  value="Flexitariana"
-                  class="form-check-input"
-                  th:checked="${tipoDieta == 'Flexitariana'}"
-                />
-                <label class="form-check-label">Flexitariana</label>
+            <div class="mb-2">
+              <button
+                class="btn btn-filtro-titulo w-100 text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtro-dieta"
+              >
+                Tipo de dieta <i class="fa-solid fa-chevron-down float-end"></i>
+              </button>
+              <div class="collapse" id="filtro-dieta">
+                <div class="pt-2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoDieta"
+                      value="Vegana"
+                      class="form-check-input"
+                      id="dieta-vegana"
+                      th:checked="${tipoDieta == 'Vegana'}"
+                    />
+                    <label class="form-check-label" for="dieta-vegana"
+                      >Vegana</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoDieta"
+                      value="Vegetariana"
+                      class="form-check-input"
+                      id="dieta-vegetariana"
+                      th:checked="${tipoDieta == 'Vegetariana'}"
+                    />
+                    <label class="form-check-label" for="dieta-vegetariana"
+                      >Vegetariana</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoDieta"
+                      value="Flexitariana"
+                      class="form-check-input"
+                      id="dieta-flexitariana"
+                      th:checked="${tipoDieta == 'Flexitariana'}"
+                    />
+                    <label class="form-check-label" for="dieta-flexitariana"
+                      >Flexitariana</label
+                    >
+                  </div>
+                </div>
               </div>
             </div>
 
             <!--Intolerancias y alergias-->
-            <div class="mb-3">
-              <p class="mb-1">Intolerancias/alergias</p>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="alergia"
-                  value="Gluten"
-                  class="form-check-input"
-                  th:checked="${alergia == 'Gluten'}"
-                />
-                <label class="form-check-label">Sin gluten</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="alergia"
-                  value="Lácteos"
-                  class="form-check-input"
-                  th:checked="${alergia == 'Lácteos'}"
-                />
-                <label class="form-check-label">Lácteos</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="alergia"
-                  value="Frutos secos"
-                  class="form-check-input"
-                  th:checked="${alergia == 'Frutos secos'}"
-                />
-                <label class="form-check-label">Frutos secos</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="alergia"
-                  value="Huevo"
-                  class="form-check-input"
-                  th:checked="${alergia == 'Huevo'}"
-                />
-                <label class="form-check-label">Huevo</label>
+            <div class="mb-2">
+              <button
+                class="btn btn-filtro-titulo w-100 text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtro-alergias"
+              >
+                Intolerancias/alergias
+                <i class="fa-solid fa-chevron-down float-end"></i>
+              </button>
+              <div class="collapse" id="filtro-alergias">
+                <div class="pt-2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="alergia"
+                      value="Sin gluten"
+                      class="form-check-input"
+                      id="alergia-singluten"
+                      th:checked="${alergia != null and alergia.contains('Sin gluten')}"
+                    />
+                    <label class="form-check-label" for="alergia-singluten"
+                      >Sin gluten</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="alergia"
+                      value="Lácteos"
+                      class="form-check-input"
+                      id="alergia-lacteos"
+                      th:checked="${alergia != null and alergia.contains('Lácteos')}"
+                    />
+                    <label class="form-check-label" for="alergia-lacteos"
+                      >Lácteos</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="alergia"
+                      value="Frutos secos"
+                      class="form-check-input"
+                      id="alergia-frutossecos"
+                      th:checked="${alergia != null and alergia.contains('Frutos secos')}"
+                    />
+                    <label class="form-check-label" for="alergia-frutossecos"
+                      >Frutos secos</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="alergia"
+                      value="Huevo"
+                      class="form-check-input"
+                      id="alergia-huevo"
+                      th:checked="${alergia != null and alergia.contains('Huevo')}"
+                    />
+                    <label class="form-check-label" for="alergia-huevo"
+                      >Huevo</label
+                    >
+                  </div>
+                </div>
               </div>
             </div>
 
             <!--Tipo de plato-->
-            <div class="mb-3">
-              <p class="mb-1">Tipo de plato:</p>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoPlato"
-                  value="Entrante"
-                  class="form-check-input"
-                  th:checked="${tipoPlato == 'Entrante'}"
-                />
-                <label class="form-check-label">Entrante</label>
+            <div class="mb-2">
+              <button
+                class="btn btn-filtro-titulo w-100 text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtro-plato"
+              >
+                Tipo de plato <i class="fa-solid fa-chevron-down float-end"></i>
+              </button>
+              <div class="collapse" id="filtro-plato">
+                <div class="pt-2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoPlato"
+                      value="Entrante"
+                      class="form-check-input"
+                      id="plato-entrante"
+                      th:checked="${tipoPlato == 'Entrante'}"
+                    />
+                    <label class="form-check-label" for="plato-entrante"
+                      >Entrante</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoPlato"
+                      value="Principal"
+                      class="form-check-input"
+                      id="plato-principal"
+                      th:checked="${tipoPlato == 'Principal'}"
+                    />
+                    <label class="form-check-label" for="plato-principal"
+                      >Principal</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoPlato"
+                      value="Postre"
+                      class="form-check-input"
+                      id="plato-postre"
+                      th:checked="${tipoPlato == 'Postre'}"
+                    />
+                    <label class="form-check-label" for="plato-postre"
+                      >Postre</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tipoPlato"
+                      value="Bebida"
+                      class="form-check-input"
+                      id="plato-bebida"
+                      th:checked="${tipoPlato == 'Bebida'}"
+                    />
+                    <label class="form-check-label" for="plato-bebida"
+                      >Bebida</label
+                    >
+                  </div>
+                </div>
               </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoPlato"
-                  value="Principal"
-                  class="form-check-input"
-                  th:checked="${tipoPlato == 'Principal'}"
-                />
-                <label class="form-check-label">Principal</label>
+            </div>
+
+            <!--Tiempo de preparación-->
+            <div class="mb-2">
+              <button
+                class="btn btn-filtro-titulo w-100 text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtro-tiempo"
+              >
+                Tiempo de preparación
+                <i class="fa-solid fa-chevron-down float-end"></i>
+              </button>
+              <div class="collapse" id="filtro-tiempo">
+                <div class="pt-2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tiempoPreparacion"
+                      value="Menos de 15 min"
+                      class="form-check-input"
+                      id="tiempo-15"
+                      th:checked="${tiempoPreparacion == 'Menos de 15 min'}"
+                    />
+                    <label class="form-check-label" for="tiempo-15"
+                      >Menos de 15 min</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tiempoPreparacion"
+                      value="15-30 min"
+                      class="form-check-input"
+                      id="tiempo-30"
+                      th:checked="${tiempoPreparacion == '15-30 min'}"
+                    />
+                    <label class="form-check-label" for="tiempo-30"
+                      >15-30 min</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tiempoPreparacion"
+                      value="30-60 min"
+                      class="form-check-input"
+                      id="tiempo-60"
+                      th:checked="${tiempoPreparacion == '30-60 min'}"
+                    />
+                    <label class="form-check-label" for="tiempo-60"
+                      >30-60 min</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="tiempoPreparacion"
+                      value="Más de 1 hora"
+                      class="form-check-input"
+                      id="tiempo-hora"
+                      th:checked="${tiempoPreparacion == 'Más de 1 hora'}"
+                    />
+                    <label class="form-check-label" for="tiempo-hora"
+                      >Más de 1 hora</label
+                    >
+                  </div>
+                </div>
               </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoPlato"
-                  value="Postre"
-                  class="form-check-input"
-                  th:checked="${tipoPlato == 'Postre'}"
-                />
-                <label class="form-check-label">Postre</label>
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  name="tipoPlato"
-                  value="Bebida"
-                  class="form-check-input"
-                  th:checked="${tipoPlato == 'Bebida'}"
-                />
-                <label class="form-check-label">Bebida</label>
+            </div>
+
+            <!--Dificultad-->
+            <div class="mb-2">
+              <button
+                class="btn btn-filtro-titulo w-100 text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtro-dificultad"
+              >
+                Dificultad <i class="fa-solid fa-chevron-down float-end"></i>
+              </button>
+              <div class="collapse" id="filtro-dificultad">
+                <div class="pt-2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="dificultad"
+                      value="Fácil"
+                      class="form-check-input"
+                      id="dificultad-facil"
+                      th:checked="${dificultad == 'Fácil'}"
+                    />
+                    <label class="form-check-label" for="dificultad-facil"
+                      >Fácil</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="dificultad"
+                      value="Media"
+                      class="form-check-input"
+                      id="dificultad-media"
+                      th:checked="${dificultad == 'Media'}"
+                    />
+                    <label class="form-check-label" for="dificultad-media"
+                      >Media</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="dificultad"
+                      value="Difícil"
+                      class="form-check-input"
+                      id="dificultad-dificil"
+                      th:checked="${dificultad == 'Difícil'}"
+                    />
+                    <label class="form-check-label" for="dificultad-dificil"
+                      >Difícil</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      name="dificultad"
+                      value="Experto"
+                      class="form-check-input"
+                      id="dificultad-experto"
+                      th:checked="${dificultad == 'Experto'}"
+                    />
+                    <label class="form-check-label" for="dificultad-experto"
+                      >Experto</label
+                    >
+                  </div>
+                </div>
               </div>
             </div>
 
             <!--Botones-->
-            <button type="submit" class="btn btn-outline-secondary w-100 mb-2">
+            <button type="submit" class="btn btn-filtrar w-100 mb-2 mt-3">
               Filtrar búsqueda
             </button>
             <button
               type="button"
               onclick="window.location.href = '/recetas'"
-              class="btn btn-outline-secondary w-100"
+              class="btn btn-limpiar w-100"
             >
               Limpiar filtros
             </button>
@@ -347,7 +604,7 @@
       <div>
         <a th:href="@{/}">
           <img
-            th:src="@{/images/logo/mon-logo.png}"
+            th:src="@{/images/logo/mon-logo-sinfondo.png}"
             alt="Logo Mon"
             height="70"
           />
@@ -381,5 +638,8 @@
       </div>
     </footer>
     <!--Fin del footer-->
+
+    <!--Para que funcione el collapse amiwos-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

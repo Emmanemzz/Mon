@@ -1,0 +1,109 @@
+/*Panel de filtros :) */
+aside {
+  border-right: 1px solid #e0e0e0;
+  padding-right: 1.5rem;
+}
+
+aside h6 {
+  font-weight: 900;
+  color: var(--texto-oscuro);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+aside p {
+  font-weight: 700;
+  color: var(--texto-oscuro);
+  font-size: 0.9rem;
+}
+
+.form-check-input:checked {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+}
+
+.btn-filtrar {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  color: #ffffff;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-filtrar:hover {
+  background-color: var(--verde-mon-oscuro);
+  border-color: var(--verde-mon-oscuro);
+  color: #ffffff;
+}
+
+.btn-limpiar {
+  background-color: transparent;
+  border-color: var(--texto-muted);
+  color: var(--texto-muted);
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-limpiar:hover {
+  background-color: var(--texto-muted);
+  color: #ffffff;
+}
+
+/*Tarjetas de recetas */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  border-radius: 8px 8px 0 0;
+  object-fit: cover;
+  height: 160px !important;
+}
+
+.card a {
+  color: var(--verde-mon);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.card a:hover {
+  color: var(--verde-mon-oscuro);
+  text-decoration: underline;
+}
+
+/*Botón buscar*/
+.btn-success {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  font-weight: 700;
+}
+
+.btn-success:hover {
+  background-color: var(--verde-mon-oscuro);
+  border-color: var(--verde-mon-oscuro);
+}
+
+/*Búsqueda de filtros collapse */
+.btn-filtro-titulo {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 0;
+  color: var(--texto-oscuro);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.btn-filtro-titulo:hover {
+  color: var(--verde-mon);
+}
