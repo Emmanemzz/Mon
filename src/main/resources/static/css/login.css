@@ -1,0 +1,64 @@
+/*Formulario del login*/
+
+.login-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+}
+
+.login-card h2 {
+  color: var(--texto-oscuro);
+  font-weight: 900;
+}
+
+.form-control:focus {
+  border-color: var(--verde-mon);
+  box-shadow: 0 0 0 0.2rem rgba(74, 124, 89, 0.25);
+}
+
+/*Botones*/
+.btn-login {
+  background-color: black;
+  border-color: var(--texto-oscuro);
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-login:hover {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(74, 124, 89, 0.4);
+  transform: translateY(-2px);
+}
+
+/*Iniciar sersion*/
+.login-link a {
+  color: var(--verde-mon);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  color: var(--verde-mon-oscuro);
+  text-decoration: underline;
+}
+
+/*ANIMACIÓN DE ENTRADA*/
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card {
+  animation: fadeInUp 0.4s ease forwards;
+}
