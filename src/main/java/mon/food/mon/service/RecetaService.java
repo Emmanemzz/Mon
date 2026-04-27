@@ -72,7 +72,7 @@ public class RecetaService {
 
     // Método para buscar por alergias
     public List<Receta> buscarPorAlergias(String alergia) {
-        return recetaRepository.findByAlergias(alergia);
+        return recetaRepository.findByAlergiasContainingIgnoreCase(alergia);
     }
 
     // Método para buscar por ingredientes
@@ -97,5 +97,15 @@ public class RecetaService {
     // Búsqueda general por título o ingredientes
     public List<Receta> buscarPorTituloOIngredientes(String q) {
         return recetaRepository.findByTituloContainingIgnoreCaseOrIngredientesContainingIgnoreCase(q, q);
+    }
+
+    // Método para buscar por tiempo de preparación
+    public List<Receta> buscarPorTiempoPreparacion(String tiempoPreparacion) {
+        return recetaRepository.findByTiempoPreparacion(tiempoPreparacion);
+    }
+
+    // Método para buscar por dificultad
+    public List<Receta> buscarPorDificultad(String dificultad) {
+        return recetaRepository.findByDificultad(dificultad);
     }
 }

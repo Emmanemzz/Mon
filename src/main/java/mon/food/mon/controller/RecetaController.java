@@ -7,7 +7,6 @@ import mon.food.mon.service.ComentarioService;
 import mon.food.mon.service.RecetaService;
 import mon.food.mon.service.UsuarioService;
 
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @Controller
 @RequestMapping("/recetas")
 public class RecetaController {
@@ -25,8 +23,8 @@ public class RecetaController {
     private final RecetaService recetaService;
     private final UsuarioService usuarioService;
 
-
-    public RecetaController(RecetaService recetaService, ComentarioService comentarioService, UsuarioService usuarioService){
+    public RecetaController(RecetaService recetaService, ComentarioService comentarioService,
+            UsuarioService usuarioService) {
         this.recetaService = recetaService;
         this.comentarioService = comentarioService;
         this.usuarioService = usuarioService;
@@ -37,50 +35,54 @@ public class RecetaController {
     public String listarRecetas(@RequestParam(required = false) String q,
             @RequestParam(required = false) String pais,
             @RequestParam(required = false) String tipoDieta,
-            @RequestParam(required = false) String alergia,
+            @RequestParam(required = false) List<String> alergia,
             @RequestParam(required = false) String tipoPlato,
+            @RequestParam(required = false) String tiempoPreparacion,
+            @RequestParam(required = false) String dificultad,
             Model model) {
 
         List<Receta> resultadosBusqueda;
-        // Sin filtros
+
         if (q != null && !q.isBlank()) {
-        resultadosBusqueda = recetaService.buscarPorTituloOIngredientes(q);
-        model.addAttribute("usuarios", usuarioService.buscarPorNombre(q));
-    } else if ((pais == null || pais.isBlank()) &&
-            (tipoDieta == null || tipoDieta.isBlank()) &&
-            (alergia == null || alergia.isBlank()) &&
-            (tipoPlato == null || tipoPlato.isBlank())) {
-        resultadosBusqueda = recetaService.listarTodas();
-    } else {
-        if (pais != null && !pais.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorTituloOIngredientes(q);
+            model.addAttribute("usuarios", usuarioService.buscarPorNombre(q));
+        } else if (pais != null && !pais.isBlank()) {
             resultadosBusqueda = recetaService.buscarPorPais(pais);
         } else if (tipoDieta != null && !tipoDieta.isBlank()) {
             resultadosBusqueda = recetaService.buscarPorTipoDieta(tipoDieta);
-        } else if (alergia != null && !alergia.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorAlergias(alergia);
-        } else {
+        } else if (alergia != null && !alergia.isEmpty()) {
+            resultadosBusqueda = recetaService.buscarPorAlergias(alergia.get(0));
+        } else if (tipoPlato != null && !tipoPlato.isBlank()) {
             resultadosBusqueda = recetaService.buscarPorTipoPlato(tipoPlato);
+        } else if (tiempoPreparacion != null && !tiempoPreparacion.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorTiempoPreparacion(tiempoPreparacion);
+        } else if (dificultad != null && !dificultad.isBlank()) {
+            resultadosBusqueda = recetaService.buscarPorDificultad(dificultad);
+        } else {
+            resultadosBusqueda = recetaService.listarTodas();
         }
-    }
+
         model.addAttribute("recetas", resultadosBusqueda);
         model.addAttribute("q", q);
         model.addAttribute("pais", pais);
         model.addAttribute("tipoDieta", tipoDieta);
-        model.addAttribute("alergia", alergia);
+        model.addAttribute("alergia", alergia != null ? String.join(",", alergia) : null);
         model.addAttribute("tipoPlato", tipoPlato);
+        model.addAttribute("tiempoPreparacion", tiempoPreparacion);
+        model.addAttribute("dificultad", dificultad);
 
         return "recetas/lista";
-
     }
 
     // Esto es público, ver detalle de una receta
     @GetMapping("/{id}")
     public String verReceta(@PathVariable Long id,
-                            @AuthenticationPrincipal Usuario usuarioActual,
-                            Model model) {
+            @AuthenticationPrincipal Usuario usuarioActual,
+            Model model) {
         Optional<Receta> receta = recetaService.listarPorId(id);
         if (receta.isEmpty()) {
-            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND);
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.NOT_FOUND);
         }
         model.addAttribute("receta", receta.get());
         model.addAttribute("comentarios", comentarioService.obtenerPorReceta(receta.get()));
@@ -103,7 +105,13 @@ public class RecetaController {
     // Esto es privado, guardar la nueva receta
     @PostMapping("/nueva")
     public String guardarReceta(@ModelAttribute Receta receta,
-            @AuthenticationPrincipal Usuario autor) {
+            @AuthenticationPrincipal Usuario autor,
+            @RequestParam(value = "alergias", required = false) List<String> alergias) {
+        if (alergias != null) {
+            receta.setAlergias(String.join(",", alergias));
+        } else {
+            receta.setAlergias(null);
+        }
         recetaService.guardarConAutor(receta, autor);
         return "redirect:/recetas";
     }
@@ -126,11 +134,17 @@ public class RecetaController {
     @PostMapping("/{id}/editar")
     public String guardarRecetaEditada(@PathVariable Long id,
             @ModelAttribute Receta recetaEditada,
-            @AuthenticationPrincipal Usuario usuarioActual) {
+            @AuthenticationPrincipal Usuario usuarioActual,
+            @RequestParam(value = "alergias", required = false) List<String> alergias) {
 
         Optional<Receta> receta = recetaService.listarPorId(id);
         if (receta.isEmpty() || !receta.get().getAutor().getId().equals(usuarioActual.getId())) {
             return "redirect:/recetas";
+        }
+        if (alergias != null) {
+            recetaEditada.setAlergias(String.join(",", alergias));
+        } else {
+            recetaEditada.setAlergias(null);
         }
         recetaEditada.setId(id);
         recetaService.guardarConAutor(recetaEditada, usuarioActual);
@@ -149,12 +163,11 @@ public class RecetaController {
         return "redirect:/recetas";
     }
 
-
-    //Método guardar receta
+    // Método guardar receta
     @PostMapping("/{id}/guardar")
     public String guardarReceta(@PathVariable Long id,
-                                @AuthenticationPrincipal Usuario usuarioActual) {
-        
+            @AuthenticationPrincipal Usuario usuarioActual) {
+
         Optional<Receta> receta = recetaService.listarPorId(id);
         if (receta.isPresent()) {
             Usuario usuarioRecargado = usuarioService.buscarPorEmail(usuarioActual.getEmail());
@@ -162,11 +175,11 @@ public class RecetaController {
         }
         return "redirect:/recetas/" + id;
     }
-    
-    //Método quitar receta
+
+    // Método quitar receta
     @PostMapping("/{id}/quitarGuardado")
     public String quitarRecetaGuardada(@PathVariable Long id,
-                                        @AuthenticationPrincipal Usuario usuarioActual) {
+            @AuthenticationPrincipal Usuario usuarioActual) {
         Optional<Receta> receta = recetaService.listarPorId(id);
         if (receta.isPresent()) {
             Usuario usuarioRecargado = usuarioService.buscarPorEmail(usuarioActual.getEmail());
@@ -174,6 +187,5 @@ public class RecetaController {
         }
         return "redirect:/recetas/" + id;
     }
-    
 
 }
