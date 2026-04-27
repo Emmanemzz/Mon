@@ -17,10 +17,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/mon.css}" />
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
     <title>Mon - Home</title>
   </head>
-  <!--TODO
-    Falta agregar estilos-->
   <body>
     <!--HEADER MON-->
     <header class="container-fluid py-2">
@@ -108,10 +107,7 @@
     <!--Fin menú de navegación-->
 
     <!--Banner de bienvenida-->
-    <section
-      class="container-fluid py-5 mb-4"
-      style="background-color: #f8f9fa"
-    >
+    <section class="container-fluid py-5 mb-0 banner-bienvenida">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6">
@@ -131,19 +127,23 @@
             >
           </div>
           <div class="col-md-6 text-center">
-            <img
-              th:src="@{/images/banner-bienvenida.png}"
-              alt="Banner Mon"
-              class="img-fluid"
-            />
+            <div class="banner-img-wrapper">
+              <img
+                th:src="@{/images/banner-bienvenida.png}"
+                alt="Banner Mon"
+                class="img-fluid"
+              />
+            </div>
           </div>
         </div>
       </div>
     </section>
     <!--Fin banner de bienvenida-->
-
+    <hr />
     <!--Recetas destacadas-->
     <section class="container my-4">
+      <h2 class="text-center mb-4">Recetas destacadas</h2>
+      <p class=""></p>
       <div class="row">
         <div th:each="receta : ${destacadas}" class="col-md-4">
           <div class="card">
@@ -156,9 +156,15 @@
               <p class="card-title fw-bold" th:text="${receta.titulo}">
                 Título
               </p>
+              <p
+                class="card-text text-muted small"
+                th:text="${receta.descripcion}"
+              >
+                Descripcion
+              </p>
               <a
                 th:href="@{/recetas/{id}(id=${receta.id})}"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-sm btn-outline-success"
               >
                 Ver receta
               </a>
@@ -174,37 +180,94 @@
 
     <!--Categorías destacadas-->
     <section class="container my-4">
-      <h2 class="text-center">Categorías destacadas</h2>
-      <div class="row mt-3">
-        <div class="col-md-4">
-          <div class="border tex-center py-3">
-            <span>Texto de prueba</span>
-          </div>
+      <h2 class="text-center mb-4">Categorías destacadas</h2>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <a
+            th:href="@{/recetas(tipoPlato='Entrante')}"
+            class="text-decoration-none"
+          >
+            <div
+              class="position-relative rounded overflow-hidden categoria-hover"
+              style="height: 200px"
+            >
+              <img
+                th:src="@{/images/categorias/entrantes-categoria.png}"
+                alt="Entrantes"
+                class="w-100 h-100"
+                style="object-fit: cover"
+              />
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                style="background: rgba(0, 0, 0, 0.35)"
+              >
+                <h4 class="text-white fw-bold mb-0">Entrantes</h4>
+              </div>
+            </div>
+          </a>
         </div>
 
-        <div class="col-md-4">
-          <div class="border tex-center py-3">
-            <span>Texto de prueba 2</span>
-          </div>
+        <div class="col-md-4 mb-3">
+          <a
+            th:href="@{/recetas(tipoPlato='Principal')}"
+            class="text-decoration-none"
+          >
+            <div
+              class="position-relative rounded overflow-hidden categoria-hover"
+              style="height: 200px"
+            >
+              <img
+                th:src="@{/images/categorias/principal-categoria.png}"
+                alt="Principales"
+                class="w-100 h-100"
+                style="object-fit: cover"
+              />
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                style="background: rgba(0, 0, 0, 0.35)"
+              >
+                <h4 class="text-white fw-bold mb-0">Principales</h4>
+              </div>
+            </div>
+          </a>
         </div>
 
-        <div class="col-md-4">
-          <div class="border tex-center py-3">
-            <span>Texto de prueba 3</span>
-          </div>
+        <div class="col-md-4 mb-3">
+          <a
+            th:href="@{/recetas(tipoPlato='Postre')}"
+            class="text-decoration-none"
+          >
+            <div
+              class="position-relative rounded overflow-hidden categoria-hover"
+              style="height: 200px"
+            >
+              <img
+                th:src="@{/images/categorias/postres-categoria.png}"
+                alt="Postres"
+                class="w-100 h-100"
+                style="object-fit: cover"
+              />
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                style="background: rgba(0, 0, 0, 0.35)"
+              >
+                <h4 class="text-white fw-bold mb-0">Postres</h4>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </section>
     <!--Fin sección categorías destacadas-->
 
-    <!--Recetas favoritas-->
+    <!--Recetas guardadas-->
     <section
       class="container my-4"
       th:if="${#authorization.expression('isAuthenticated()')}"
     >
-      <h2 class="text-center">Recetas favoritas</h2>
-      <div class="row mt-3">
-        <div th:each="receta : ${recetasGuardadas}" class="col-md-6">
+      <h2 class="text-center mb-4">Recetas guardadas</h2>
+      <div class="row mt-3 recetas-guardadas">
+        <div th:each="receta : ${recetasGuardadas}" class="col-md-6 mb-4">
           <div class="card">
             <img
               th:src="${receta.imagen1}"
@@ -217,7 +280,7 @@
               </p>
               <a
                 th:href="@{/recetas/{id}(id=${receta.id})}"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-sm btn-outline-success"
               >
                 Ver receta
               </a>
@@ -232,7 +295,7 @@
         </p>
       </div>
     </section>
-    <!--Fin sección recetas favoritas-->
+    <!--Fin sección recetas guarddadas-->
     <!--Footer-->
     <footer class="container-fluid text-center mt-4 py-4 border">
       <div>

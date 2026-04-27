@@ -1,0 +1,70 @@
+/*Banner bienvenida*/
+.banner-bienvenida {
+    padding-bottom: 1rem !important;
+    background-color: transparent;
+}
+
+.banner-bienvenida h1 {
+  color: var(--texto-oscuro);
+  font-weight: 900;
+}
+
+.banner-bienvenida p {
+  color: var(--texto-muted);
+}
+
+.banner-img-wrapper{
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: inline-block;
+}
+
+hr{
+   margin-top: -2px; 
+}
+
+/*Tarjetas de las recetas */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  border-radius: 8px 8px 0 0;
+  object-fit: cover;
+  height: 160px !important;
+}
+
+/*Categorías destacadas */
+.categoria-hover {
+    transition: transform 0.3s ease;
+}
+
+.categoria-hover:hover {
+    transform: scale(1.03);
+}
+
+.categoria-hover:hover .categoria-overlay {
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.categoria-overlay {
+    transition: background 0.3s ease;
+}
+
+/*Recetas guardadas*/
+.recetas-guardadas .card-img-top {
+  height: 180px !important;
+  object-fit: cover;
+}
+
+/* .recetas-guardadas .card {
+  max-width: 400px;
+  margin: 0 auto;
+} */
