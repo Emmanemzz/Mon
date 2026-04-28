@@ -172,41 +172,77 @@
     <!--Fin formulario login-->
 
     <!--Footer-->
-    <footer class="container-fluid text-center mt-4 py-4 border">
-      <div>
-        <a th:href="@{/}">
-          <img
-            th:src="@{/images/logo/mon-logo-sinfondo.png}"
-            alt="Logo Mon"
-            height="70"
-          />
-        </a>
-      </div>
-      <div class="mt-2">
-        <a th:href="@{https://www.instagram.com/}" target="_blank">
-          <img
-            th:src="@{/images/iconos/rrss/instagram.png}"
-            alt="Logo Instagram"
-            height="30"
-          />
-        </a>
-        <a th:href="@{https://x.com/?lang=es}" target="_blank">
-          <img th:src="@{/images/iconos/rrss/x.png}" alt="Logo X" height="30" />
-        </a>
-        <a th:href="@{https://www.tiktok.com/es-419/}" target="_blank">
-          <img
-            th:src="@{/images/iconos/rrss/tiktok.png}"
-            alt="Logo TikTok"
-            height="30"
-          />
-        </a>
-        <a th:href="@{https://www.youtube.com/}" target="_blank">
-          <img
-            th:src="@{/images/iconos/rrss/youtube.png}"
-            alt="Logo Youtube"
-            height="30"
-          />
-        </a>
+    <footer class="container-fluid py-5 mt-4">
+      <div class="container">
+        <div class="row align-items-start">
+          <!--Links rápidos-->
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h6 class="footer-titulo">Enlaces</h6>
+            <ul class="list-unstyled">
+              <li><a th:href="@{/}" class="footer-link">Inicio</a></li>
+              <li><a th:href="@{/recetas}" class="footer-link">Recetas</a></li>
+              <li>
+                <a th:href="@{/contacto}" class="footer-link">Contacto</a>
+              </li>
+            </ul>
+          </div>
+
+          <!--Centro: redes sociales y copyright-->
+          <div class="col-md-4 text-center mb-4 mb-md-0">
+            <h6 class="footer-titulo">Síguenos</h6>
+            <div class="mb-3">
+              <a th:href="@{https://www.instagram.com/}" target="_blank">
+                <img
+                  th:src="@{/images/iconos/rrss/instagram.png}"
+                  alt="Instagram"
+                  height="28"
+                />
+              </a>
+              <a th:href="@{https://x.com/}" target="_blank">
+                <img
+                  th:src="@{/images/iconos/rrss/x.png}"
+                  alt="X"
+                  height="28"
+                />
+              </a>
+              <a th:href="@{https://www.tiktok.com/}" target="_blank">
+                <img
+                  th:src="@{/images/iconos/rrss/tiktok.png}"
+                  alt="TikTok"
+                  height="28"
+                />
+              </a>
+              <a th:href="@{https://www.youtube.com/}" target="_blank">
+                <img
+                  th:src="@{/images/iconos/rrss/youtube.png}"
+                  alt="Youtube"
+                  height="28"
+                />
+              </a>
+            </div>
+            <p class="footer-copyright">© 2025 Mon</p>
+          </div>
+
+          <!--Derecha: logo, eslogan y github-->
+          <div class="col-md-4 text-end mb-4 mb-md-0">
+            <a th:href="@{/}">
+              <img
+                th:src="@{/images/logo/mon-logo-sinfondo.png}"
+                alt="Logo Mon"
+                height="60"
+                class="mb-2"
+              />
+            </a>
+            <p class="footer-eslogan">Descubre recetas con Mon</p>
+            <a
+              href="https://github.com/Emmanemzz"
+              target="_blank"
+              class="footer-github"
+            >
+              <i class="fa-brands fa-github me-1"></i>GitHub
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
     <!--Fin del footer-->
