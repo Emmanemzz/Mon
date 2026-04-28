@@ -1,0 +1,133 @@
+/*Título de la receta */
+.detalle-titulo h1 {
+  font-weight: 900;
+  color: var(--texto-oscuro);
+  border-bottom: 3px solid var(--verde-mon);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+/*Ingredientes*/
+.detalle-ingredientes h5 {
+  font-weight: 900;
+  color: var(--verde-mon);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--verde-mon-claro);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.detalle-ingredientes p {
+  background-color: var(--fondo-claro);
+  border-radius: 8px;
+  padding: 1rem;
+  line-height: 1.8;
+  color: var(--texto-oscuro);
+}
+
+/*Detalles*/
+.detalle-info span:first-child {
+  font-weight: 700;
+  color: var(--texto-oscuro);
+}
+
+.detalle-info span:last-child {
+  color: var(--texto-muted);
+}
+
+.detalle-info img {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.detalle-titulo h1 {
+  text-transform: uppercase;
+}
+
+.detalle-ingredientes h5,
+.detalle-metodo h5 {
+  text-transform: uppercase;
+}
+
+/*MétodoPreparación*/
+.detalle-metodo {
+  border: none !important;
+  border-left: 4px solid var(--verde-mon) !important;
+  border-radius: 0 !important;
+  padding-left: 1.5rem !important;
+}
+
+.detalle-metodo h5 {
+  font-weight: 900;
+  color: var(--verde-mon);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+/*Buttons*/
+.btn-guardar {
+  background-color: #f5c542;
+  border-color: #f5c542;
+  color: var(--texto-oscuro);
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-guardar:hover {
+  background-color: #f5c542;
+  border-color: #f5c542;
+  color: var(--texto-oscuro);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(245, 197, 66, 0.5);
+}
+
+.btn-editar {
+  color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-editar:hover {
+  background-color: var(--verde-mon);
+  color: #ffffff;
+}
+
+.btn-comentario {
+  background-color: #4a90d9;
+  border-color: #4a90d9;
+  color: #ffffff;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-comentario:hover {
+  background-color: #357abd;
+  border-color: #357abd;
+  color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(74, 144, 217, 0.4);
+}
+
+
+/*Sección de comentarios*/
+.comentarios h2 {
+  font-weight: 900;
+  color: var(--texto-oscuro);
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid var(--verde-mon);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.comentarios .border-bottom {
+  border-color: #e0e0e0 !important;
+}
+
+.comentarios strong {
+  color: var(--verde-mon);
+}

@@ -21,10 +21,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/mon.css}" />
+    <link rel="stylesheet" th:href="@{/css/detalle.css}">
     <title th:text="${receta.titulo}">Mon - Detalle Receta</title>
   </head>
   <body>
-   <!--HEADER MON-->
+    <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
         <!-- Logo Mon-->
@@ -110,50 +111,58 @@
     <!--Fin menú de navegación-->
 
     <!--Título de la receta-->
-    <section class="container my-4 text-center">
+    <section class="container my-4 text-center detalle-titulo">
       <h1 th:text="${receta.titulo}">Título de la receta</h1>
     </section>
-    <!--Ingredientes-->
-    <div class="col-md-4">
-      <h5>ingredientes</h5>
-      <p th:text="${receta.ingredientes}">Lista de ingredientes</p>
-    </div>
 
-    <!--Tiempo,dificultad,imágenes-->
-    <div class="col-md-8">
-      <div class="mb-2">
-        <span>Tiempo de preparación: </span>
-        <span th:text="${receta.tiempoPreparacion}"
-          >Aquí va el tiempo de preparación</span
-        >
-      </div>
-      <div class="mb-2">
-        <span>Dificultad: </span>
-        <span th:text="${receta.dificultad}">Aquí va la dificultad</span>
-      </div>
+    <!--Ingredientes, tiempo, dificultad e imágenes-->
+    <section class="container my-4">
       <div class="row">
-        <div class="col-md-6">
-          <img
-            th:src="${receta.imagen1}"
-            alt="Imagen de la receta"
-            class="img-fluid"
-          />
+        <!--Ingredientes-->
+        <div class="col-md-4 detalle-ingredientes">
+          <h5>Ingredientes</h5>
+          <p th:text="${receta.ingredientes}">Lista de ingredientes</p>
+        </div>
+
+        <!--Tiempo, dificultad e imágenes-->
+        <div class="col-md-8 detalle-info">
+          <div class="mb-2">
+            <span>Tiempo de preparación: </span>
+            <span th:text="${receta.tiempoPreparacion}">Tiempo</span>
+          </div>
+          <div class="mb-2">
+            <span>Dificultad: </span>
+            <span th:text="${receta.dificultad}">Dificultad</span>
+          </div>
+          <div class="row mt-3">
+            <div
+              class="col-md-6"
+              th:if="${receta.imagen1 != null and !receta.imagen1.isEmpty()}"
+            >
+              <img
+                th:src="${receta.imagen1}"
+                alt="Imagen de la receta"
+                class="img-fluid rounded"
+              />
+            </div>
+            <div
+              class="col-md-6"
+              th:if="${receta.imagen2 != null and !receta.imagen2.isEmpty()}"
+            >
+              <img
+                th:src="${receta.imagen2}"
+                alt="Imagen de la receta"
+                class="img-fluid rounded"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <img
-            th:src="${receta.imagen2}"
-            alt="Imagen de la receta"
-            class="img-fluid"
-          />
-        </div>
-      </div>
-    </div>
+    </section>
 
     <!--Método de preparación-->
     <section class="container my-4">
-      <div class="border p-4">
+      <div class="border p-4 detalle-metodo">
         <h5>Método de preparación</h5>
         <p th:text="${receta.metodoPreparacion}">
           Aquí van los pasos de preparación
@@ -169,7 +178,7 @@
     >
       <a
         th:href="@{/recetas/{id}/editar(id=${receta.id})}"
-        class="btn btn-outline-secondary me-2"
+        class="btn btn-editar me-2"
         >Editar receta</a
       >
 
@@ -217,7 +226,7 @@
         method="post"
         class="d-inline"
       >
-        <button type="submit" class="btn btn-outline-primary me-2">
+        <button type="submit" class="btn btn-guardar me-2">
           Guardar receta
         </button>
       </form>
@@ -237,7 +246,7 @@
     <!--Fin bótones privados-->
 
     <!--Comentarios de la receta-->
-    <section class="container my-4">
+    <section class="container my-4 comentarios">
       <h2 class="text-center">Comentarios</h2>
       <div sec:authorize="isAuthenticated()" class="mb-4">
         <form th:action="@{/comentarios/nueva}" method="post">
@@ -251,7 +260,7 @@
               required
             ></textarea>
           </div>
-          <button type="submit" class="btn btn-outline-secondary">
+          <button type="submit" class="btn btn-comentario">
             Publicar comentario
           </button>
         </form>
