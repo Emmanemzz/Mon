@@ -17,10 +17,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/mon.css}" />
+    <link rel="stylesheet" th:href="@{/css/mis-recetas.css}">
     <title>Mon - Mis recetas</title>
   </head>
-  <!--TODO
-    Falta agregar estilos-->
   <body>
     <!--HEADER MON-->
     <header class="container-fluid py-2">
@@ -110,8 +109,8 @@
     <!--Listado recetas propias-->
     <section class="container my-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Mis recetas</h2>
-        <a th:href="@{/perfil}" class="btn btn-outline-secondary"
+        <h2 class="mb-0 seccion-titulo">Mis recetas</h2>
+        <a th:href="@{/perfil}" class="btn btn-volver"
           >← Volver al perfil</a
         >
       </div>
@@ -136,7 +135,7 @@
               <div class="mt-auto d-flex gap-2">
                 <a
                   th:href="@{/recetas/{id}/editar(id=${receta.id})}"
-                  class="btn btn-outline-secondary btn-sm flex-fill"
+                  class="btn btn-editar-receta btn-sm flex-fill"
                   >Editar</a
                 >
                 <button
