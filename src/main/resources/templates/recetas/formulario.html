@@ -17,10 +17,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/mon.css}" />
+    <link rel="stylesheet" th:href="@{/css/formulario.css}">
     <title>Mon - Formulario Receta</title>
   </head>
   <body>
-   <!--HEADER MON-->
+    <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
         <!-- Logo Mon-->
@@ -109,7 +110,7 @@
     <div class="container my-4">
       <!--Encabezado del formulario-->
       <h2
-        class="text-center"
+        class="text-center formulario-titulo"
         th:text="${receta.id == null} ? 'Crear receta' : 'Editar receta'"
       >
         Crear receta
@@ -121,7 +122,7 @@
         method="post"
       >
         <!--Título receta-->
-        <div class="mb-4 text-center">
+        <div class=" formulario-seccion mb-4 text-center">
           <input
             type="text"
             th:field="*{titulo}"
@@ -130,6 +131,17 @@
           />
         </div>
 
+        <!--Descripción receta-->
+        <div class=" formulario-seccion mb-4">
+          <textarea
+            th:field="*{descripcion}"
+            rows="2"
+            placeholder="Escribe una breve descripción de tu receta..."
+            class="form-control"
+          ></textarea>
+        </div>
+
+      <div class="formulario-seccion">
         <div class="row">
           <!--Ingredientes-->
           <div class="col-md-4">
@@ -145,22 +157,24 @@
           <div class="col-md-8">
             <div class="input-group mb-2">
               <span class="input-group-text">Tiempo de preparación</span>
-              <input
-                type="text"
-                th:field="*{tiempoPreparacion}"
-                placeholder="Introduce tiempo de preparación"
-                class="form-control"
-              />
+              <select th:field="*{tiempoPreparacion}" class="form-select">
+                <option value="">Selecciona un tiempo</option>
+                <option value="Menos de 15 min">Menos de 15 min</option>
+                <option value="15-30 min">15-30 min</option>
+                <option value="30-60 min">30-60 min</option>
+                <option value="Más de 1 hora">Más de 1 hora</option>
+              </select>
             </div>
 
             <div class="input-group mb-3">
               <span class="input-group-text">Dificultad</span>
-              <input
-                type="text"
-                th:field="*{dificultad}"
-                placeholder="Introduce la dificultad"
-                class="form-control"
-              />
+              <select th:field="*{dificultad}" class="form-select">
+                <option value="">Selecciona una dificultad</option>
+                <option value="Fácil">Fácil</option>
+                <option value="Media">Media</option>
+                <option value="Difícil">Difícil</option>
+                <option value="Experto">Experto</option>
+              </select>
             </div>
 
             <div class="row">
@@ -189,10 +203,11 @@
             </div>
           </div>
         </div>
+        </div>
 
         <!--Preparación-->
-        <div class="mt-4">
-          <div class="border p-3">
+        <div class=" formulario-seccion mt-4">
+          <div class="border p-3 formulario-metodo">
             <h6>Método de preparación</h6>
             <textarea
               th:field="*{metodoPreparacion}"
@@ -204,7 +219,7 @@
         </div>
 
         <!--EXTRA ETIQUETAS-->
-        <div class="row mt-3">
+        <div class="formulario-seccion row mt-3">
           <!--Tipo de cocina-->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Tipo de cocina</label>
@@ -262,11 +277,11 @@
               <div class="form-check">
                 <input
                   class="form-check-input"
-                  type="radio"
+                  type="checkbox"
                   th:name="alergias"
                   th:value="${opcion}"
                   th:id="'alergia-' + ${opcion}"
-                  th:checked="${receta.alergias == opcion}"
+                  th:checked="${receta.alergias != null and receta.alergias.contains(opcion)}"
                 />
                 <label
                   class="form-check-label"
@@ -304,10 +319,10 @@
         <!--Fin extra etiquetas-->
 
         <div class="text-center mt-4">
-          <button type="submit" class="btn btn-outline-secondary px-5">
+          <button type="submit" class="btn btn-guardar-form px-5">
             Guardar receta
           </button>
-          <a th:href="@{/recetas}" class="btn btn-outline-danger px-5"
+          <a th:href="@{/recetas}" class="btn btn-cancelar px-5"
             >Cancelar</a
           >
         </div>

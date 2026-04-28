@@ -1,0 +1,87 @@
+/*Tirulo de la receta*/
+.formulario-titulo {
+  font-weight: 900;
+  color: var(--texto-oscuro);
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--verde-mon);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+/*Introducir datos*/
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--verde-mon);
+  box-shadow: 0 0 0 0.2rem rgba(74, 124, 89, 0.25);
+}
+
+/*Checkbox y radio*/
+.form-check-input:checked {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+}
+
+/*MetodoPreparacion*/
+.formulario-metodo {
+  border-left: 4px solid var(--verde-mon) !important;
+  border-radius: 0 8px 8px 0 !important;
+}
+
+.formulario-metodo h6 {
+  font-weight: 900;
+  color: var(--verde-mon);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/*Buttons*/
+.btn-guardar-form {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.75rem 3rem;
+  transition: all 0.2s ease;
+}
+
+.btn-guardar-form:hover {
+  background-color: var(--verde-mon-oscuro);
+  border-color: var(--verde-mon-oscuro);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 124, 89, 0.4);
+}
+
+.btn-cancelar {
+  background-color: transparent;
+  border-color: #dc3545;
+  color: #dc3545;
+  font-weight: 700;
+  padding: 0.75rem 3rem;
+  transition: all 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/*Fondo para que no se vea tan blanco*/
+.container.my-4 {
+  background-color: var(--fondo-claro);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+/*Tarjetas*/
+.formulario-seccion {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--verde-mon);
+}
