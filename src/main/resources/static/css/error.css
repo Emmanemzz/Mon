@@ -1,0 +1,38 @@
+.error-codigo {
+  font-size: 6rem;
+  font-weight: 900;
+  color: var(--verde-mon);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.error-titulo {
+  font-weight: 700;
+  color: var(--texto-oscuro);
+  margin-bottom: 1rem;
+}
+
+.error-texto {
+  color: var(--texto-muted);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-error {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.75rem 2.5rem;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-error:hover {
+  background-color: var(--verde-mon-oscuro);
+  border-color: var(--verde-mon-oscuro);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 124, 89, 0.4);
+}
