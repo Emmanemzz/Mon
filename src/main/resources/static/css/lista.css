@@ -107,3 +107,23 @@ aside p {
 .btn-filtro-titulo:hover {
   color: var(--verde-mon);
 }
+
+@media (max-width: 768px) {
+  aside {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding-right: 0;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .btn-filtrar,
+  .btn-limpiar {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  main.col-md-9 {
+    padding-top: 1rem;
+  }
+}

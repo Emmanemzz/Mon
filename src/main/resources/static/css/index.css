@@ -68,3 +68,9 @@ hr{
   max-width: 400px;
   margin: 0 auto;
 } */
+
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1.5rem;
+  }
+}

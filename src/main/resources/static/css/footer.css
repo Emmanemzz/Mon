@@ -72,3 +72,17 @@ footer .col-md-4.text-center img {
 footer .col-md-4.text-end img {
   filter: brightness(0) invert(1);
 }
+
+@media (max-width: 768px) {
+  footer .col-md-4 {
+    text-align: center !important;
+  }
+
+  footer .col-md-4.text-end {
+    text-align: center !important;
+  }
+
+  footer .list-unstyled {
+    text-align: center;
+  }
+}
