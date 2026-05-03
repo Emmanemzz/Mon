@@ -24,7 +24,6 @@
     <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
-        <!-- Logo Mon-->
         <div class="col-auto">
           <a th:href="@{/}">
             <img
@@ -34,8 +33,6 @@
             />
           </a>
         </div>
-
-        <!-- Barra de búsqueda de recetas o usuarios-->
         <div class="col">
           <form th:action="@{/recetas}" method="get">
             <input
@@ -47,15 +44,11 @@
             />
           </form>
         </div>
-
-        <!-- Botone -->
         <div class="col-auto">
           <th:block th:if="${#authorization.expression('isAnonymous()')}">
-            <!--Button iniciar sesión-->
             <a th:href="@{/login}" class="btn btn-outline-secondary me-2"
               >Iniciar sesión</a
             >
-            <!--Butto registro-->
             <a th:href="@{/registro}" class="btn btn-outline-secondary"
               >Registro</a
             >
@@ -75,7 +68,6 @@
     <!--Menú de navegación-->
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <!-- Botón hamburguesa para móvil -->
         <button
           class="navbar-toggler"
           type="button"
@@ -84,8 +76,6 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Links de navegación -->
         <div class="collapse navbar-collapse" id="menuPrincipal">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
@@ -140,10 +130,10 @@
     </section>
     <!--Fin banner de bienvenida-->
     <hr />
+
     <!--Recetas destacadas-->
     <section class="container my-4">
       <h2 class="text-center mb-4">Recetas destacadas</h2>
-      <p class=""></p>
       <div class="row">
         <div th:each="receta : ${destacadas}" class="col-md-4">
           <div class="card">
@@ -164,7 +154,7 @@
               </p>
               <a
                 th:href="@{/recetas/{id}(id=${receta.id})}"
-                class="btn btn-sm btn-outline-success"
+                class="btn btn-sm btn-outline-success stretched-link"
               >
                 Ver receta
               </a>
@@ -198,7 +188,7 @@
                 style="object-fit: cover"
               />
               <div
-                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center categoria-overlay"
                 style="background: rgba(0, 0, 0, 0.35)"
               >
                 <h4 class="text-white fw-bold mb-0">Entrantes</h4>
@@ -206,7 +196,6 @@
             </div>
           </a>
         </div>
-
         <div class="col-md-4 mb-3">
           <a
             th:href="@{/recetas(tipoPlato='Principal')}"
@@ -223,7 +212,7 @@
                 style="object-fit: cover"
               />
               <div
-                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center categoria-overlay"
                 style="background: rgba(0, 0, 0, 0.35)"
               >
                 <h4 class="text-white fw-bold mb-0">Principales</h4>
@@ -231,7 +220,6 @@
             </div>
           </a>
         </div>
-
         <div class="col-md-4 mb-3">
           <a
             th:href="@{/recetas(tipoPlato='Postre')}"
@@ -248,7 +236,7 @@
                 style="object-fit: cover"
               />
               <div
-                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center categoria-overlay"
                 style="background: rgba(0, 0, 0, 0.35)"
               >
                 <h4 class="text-white fw-bold mb-0">Postres</h4>
@@ -280,7 +268,7 @@
               </p>
               <a
                 th:href="@{/recetas/{id}(id=${receta.id})}"
-                class="btn btn-sm btn-outline-success"
+                class="btn btn-sm btn-outline-success stretched-link"
               >
                 Ver receta
               </a>
@@ -295,12 +283,12 @@
         </p>
       </div>
     </section>
-    <!--Fin sección recetas guarddadas-->
+    <!--Fin sección recetas guardadas-->
+
     <!--Footer-->
     <footer class="container-fluid py-5 mt-4">
       <div class="container">
         <div class="row align-items-start">
-          <!--Links rápidos-->
           <div class="col-md-4 mb-4 mb-md-0">
             <h6 class="footer-titulo">Enlaces</h6>
             <ul class="list-unstyled">
@@ -311,8 +299,6 @@
               </li>
             </ul>
           </div>
-
-          <!--Centro: redes sociales y copyright-->
           <div class="col-md-4 text-center mb-4 mb-md-0">
             <h6 class="footer-titulo">Síguenos</h6>
             <div class="mb-3">
@@ -347,8 +333,6 @@
             </div>
             <p class="footer-copyright">© 2025 Mon</p>
           </div>
-
-          <!--Derecha: logo, eslogan y github-->
           <div class="col-md-4 text-end mb-4 mb-md-0">
             <a th:href="@{/}">
               <img
@@ -371,5 +355,7 @@
       </div>
     </footer>
     <!--Fin del footer-->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
