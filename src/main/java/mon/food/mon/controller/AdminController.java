@@ -18,10 +18,13 @@ public class AdminController {
 
     // Marcar receta como destacada
     @PostMapping("/recetas/{id}/destacar")
-    public String destacarReceta(@PathVariable Long id){
+    public String destacarReceta(@PathVariable Long id) {
         Optional<Receta> recetaOpt = recetaService.listarPorId(id);
-        if(recetaOpt.isPresent()){
+        if (recetaOpt.isPresent()) {
             Receta receta = recetaOpt.get();
+            if (recetaService.listarDestacadas().size() >= 3) {
+                return "redirect:/recetas/" + id + "?errorDestacada=true";
+            }
             receta.setDestacada(true);
             recetaService.guardarConAutor(receta, receta.getAutor());
         }
@@ -30,9 +33,9 @@ public class AdminController {
 
     // Desmarcar receta como destacada
     @PostMapping("/recetas/{id}/quitar-destacada")
-    public String quitarDestacada(@PathVariable Long id){
+    public String quitarDestacada(@PathVariable Long id) {
         Optional<Receta> recetaOpt = recetaService.listarPorId(id);
-        if(recetaOpt.isPresent()){
+        if (recetaOpt.isPresent()) {
             Receta receta = recetaOpt.get();
             receta.setDestacada(false);
             recetaService.guardarConAutor(receta, receta.getAutor());
