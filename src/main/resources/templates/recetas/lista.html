@@ -25,7 +25,7 @@
     <title>Mon - Recetas</title>
   </head>
   <body>
-    <!--HEADER MON-->
+   <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
         <div class="col-auto">
@@ -37,8 +37,19 @@
             />
           </a>
         </div>
-        <div class="col"></div>
-        <div class="col-auto">
+        <div class="col">
+          <form th:action="@{/recetas}" method="get">
+            <input
+              type="text"
+              name="q"
+              class="form-control"
+              placeholder="Busca una receta o usuario..."
+              th:value="${q}"
+            />
+          </form>
+        </div>
+        <!-- Botones solo en escritorio -->
+        <div class="col-auto d-none d-lg-block">
           <th:block th:if="${#authorization.expression('isAnonymous()')}">
             <a th:href="@{/login}" class="btn btn-outline-secondary me-2"
               >Iniciar sesión</a
@@ -85,6 +96,24 @@
               <a th:href="@{/contacto}" class="nav-link">Contacto</a>
             </li>
           </ul>
+          <!-- Botones solo en móvil dentro del menú -->
+          <div class="d-lg-none text-center py-2">
+            <th:block th:if="${#authorization.expression('isAnonymous()')}">
+              <a th:href="@{/login}" class="btn btn-outline-secondary me-2 mb-2"
+                >Iniciar sesión</a
+              >
+              <a th:href="@{/registro}" class="btn btn-outline-secondary mb-2"
+                >Registro</a
+              >
+            </th:block>
+            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+              <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-outline-secondary mb-2">
+                  Cerrar sesión
+                </button>
+              </form>
+            </th:block>
+          </div>
         </div>
       </div>
     </nav>
