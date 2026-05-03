@@ -44,8 +44,13 @@ public class RecetaController {
         List<Receta> resultadosBusqueda;
 
         if (q != null && !q.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorTituloOIngredientes(q);
-            model.addAttribute("usuarios", usuarioService.buscarPorNombre(q));
+            List<Usuario> usuariosEncontrados = usuarioService.buscarPorNombre(q);
+            model.addAttribute("usuarios", usuariosEncontrados);
+            if (usuariosEncontrados.size() == 1) {
+                resultadosBusqueda = recetaService.buscarPorUsuario(usuariosEncontrados.get(0));
+            } else {
+                resultadosBusqueda = recetaService.buscarPorTituloOIngredientes(q);
+            }
         } else if (pais != null && !pais.isBlank()) {
             resultadosBusqueda = recetaService.buscarPorPais(pais);
         } else if (tipoDieta != null && !tipoDieta.isBlank()) {
