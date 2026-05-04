@@ -25,7 +25,7 @@
     <title th:text="${receta.titulo}">Mon - Detalle Receta</title>
   </head>
   <body>
-   <!--HEADER MON-->
+    <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
         <div class="col-auto">
@@ -96,7 +96,7 @@
               <a th:href="@{/contacto}" class="nav-link">Contacto</a>
             </li>
           </ul>
-          <!-- Botones solo en móvil dentro del menú -->
+          <!-- Botones solo en el móvil dentro del menú -->
           <div class="d-lg-none text-center py-2">
             <th:block th:if="${#authorization.expression('isAnonymous()')}">
               <a th:href="@{/login}" class="btn btn-outline-secondary me-2 mb-2"
@@ -118,6 +118,13 @@
       </div>
     </nav>
     <!--Fin menú de navegación-->
+
+    <!--Botón para volver a recetas desde detalle receta-->
+    <div class="container mt-3">
+      <a th:href="@{/recetas}" class="btn btn-volver">
+        <i class="fa-solid fa-arrow-left me-1"></i> Volver a recetas
+      </a>
+    </div>
 
     <!--Título de la receta-->
     <section class="container my-4 text-center detalle-titulo">
@@ -216,7 +223,8 @@
                 ></button>
               </div>
               <div class="modal-body">
-                Ya hay 3 recetas destacadas &#128546;. Quita una antes de destacar otra.
+                Ya hay 3 recetas destacadas &#128546;. Quita una antes de
+                destacar otra.
               </div>
               <div class="modal-footer">
                 <button

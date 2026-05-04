@@ -86,15 +86,33 @@
 }
 
 .btn-editar {
-  color: var(--verde-mon);
+  background-color: var(--verde-mon);
   border-color: var(--verde-mon);
+  color: #ffffff;
   font-weight: 700;
   transition: all 0.2s ease;
 }
 
 .btn-editar:hover {
-  background-color: var(--verde-mon);
+  background-color: transparent;
+  border-color: var(--verde-mon);
+  color: var(--verde-mon);
+  transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
   color: #ffffff;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-danger:hover {
+  background-color: transparent;
+  border-color: #dc3545;
+  color: #dc3545;
+  transform: translateY(-2px);
 }
 
 .btn-comentario {
@@ -113,6 +131,20 @@
   box-shadow: 0 4px 12px rgba(74, 144, 217, 0.4);
 }
 
+.btn-volver {
+  background-color: #c17f5a;
+  border-color: #c17f5a;
+  color: #ffffff;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-volver:hover {
+  background-color: transparent;
+  border-color: #c17f5a;
+  color: #c17f5a;
+  transform: translateY(-2px);
+}
 
 /*Sección de comentarios*/
 .comentarios h2 {

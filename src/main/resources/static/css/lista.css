@@ -127,3 +127,28 @@ aside p {
     padding-top: 1rem;
   }
 }
+
+/*Paginación*/
+.pagination .page-link {
+  color: var(--verde-mon);
+  border-color: #e0e0e0;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  color: #ffffff;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--verde-mon);
+  border-color: var(--verde-mon);
+  color: #ffffff;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #adb5bd;
+  border-color: #e0e0e0;
+}
