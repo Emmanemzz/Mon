@@ -6,6 +6,9 @@ import mon.food.mon.model.Usuario;
 import mon.food.mon.repository.RecetaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -107,5 +110,40 @@ public class RecetaService {
     // Método para buscar por dificultad
     public List<Receta> buscarPorDificultad(String dificultad) {
         return recetaRepository.findByDificultad(dificultad);
+    }
+
+
+    /*A partir de aquí van métodos para buscar con paginación */
+
+    public Page<Receta> listarTodasPaginadas(@NonNull Pageable pageable) {
+    return recetaRepository.findAll(pageable);
+    }
+
+    public Page<Receta> buscarPorTituloOIngredientesPaginado(String q, Pageable pageable) {
+        return recetaRepository.findByTituloContainingIgnoreCaseOrIngredientesContainingIgnoreCase(q, q, pageable);
+    }
+
+    public Page<Receta> buscarPorPaisPaginado(String pais, Pageable pageable) {
+        return recetaRepository.findByPais(pais, pageable);
+    }
+
+    public Page<Receta> buscarPorTipoDietaPaginado(String tipoDieta, Pageable pageable) {
+        return recetaRepository.findByTipoDieta(tipoDieta, pageable);
+    }
+
+    public Page<Receta> buscarPorAlergiasPaginado(String alergia, Pageable pageable) {
+        return recetaRepository.findByAlergiasContainingIgnoreCase(alergia, pageable);
+    }
+
+    public Page<Receta> buscarPorTipoplatoPaginado(String tipoPlato, Pageable pageable) {
+        return recetaRepository.findByTipoPlato(tipoPlato, pageable);
+    }
+
+    public Page<Receta> buscarPorTiempoPreparacionPaginado(String tiempoPreparacion, Pageable pageable) {
+        return recetaRepository.findByTiempoPreparacion(tiempoPreparacion, pageable);
+    }
+
+    public Page<Receta> buscarPorDificultadPaginado(String dificultad, Pageable pageable) {
+        return recetaRepository.findByDificultad(dificultad, pageable);
     }
 }

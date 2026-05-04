@@ -25,7 +25,7 @@
     <title>Mon - Recetas</title>
   </head>
   <body>
-   <!--HEADER MON-->
+    <!--HEADER MON-->
     <header class="container-fluid py-2">
       <div class="row align-items-center">
         <div class="col-auto">
@@ -617,6 +617,52 @@
           <p th:if="${#lists.isEmpty(recetas)}">
             Aún no se encontraron recetas
           </p>
+
+          <!--Paginación-->
+          <nav th:if="${totalPaginas > 1}" class="mt-4">
+            <ul class="pagination justify-content-center">
+              <!--Botón anterior-->
+              <li
+                class="page-item"
+                th:classappend="${paginaActual == 0} ? 'disabled'"
+              >
+                <a
+                  class="page-link"
+                  th:href="@{/recetas(page=${paginaActual - 1}, q=${q}, pais=${pais}, tipoDieta=${tipoDieta}, alergia=${alergia}, tipoPlato=${tipoPlato}, tiempoPreparacion=${tiempoPreparacion}, dificultad=${dificultad})}"
+                >
+                  &laquo;
+                </a>
+              </li>
+
+              <!--Números de página-->
+              <li
+                class="page-item"
+                th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}"
+                th:classappend="${i == paginaActual} ? 'active'"
+              >
+                <a
+                  class="page-link"
+                  th:href="@{/recetas(page=${i}, q=${q}, pais=${pais}, tipoDieta=${tipoDieta}, alergia=${alergia}, tipoPlato=${tipoPlato}, tiempoPreparacion=${tiempoPreparacion}, dificultad=${dificultad})}"
+                  th:text="${i + 1}"
+                >
+                </a>
+              </li>
+
+              <!--Botón siguiente-->
+              <li
+                class="page-item"
+                th:classappend="${paginaActual == totalPaginas - 1} ? 'disabled'"
+              >
+                <a
+                  class="page-link"
+                  th:href="@{/recetas(page=${paginaActual + 1}, q=${q}, pais=${pais}, tipoDieta=${tipoDieta}, alergia=${alergia}, tipoPlato=${tipoPlato}, tiempoPreparacion=${tiempoPreparacion}, dificultad=${dificultad})}"
+                >
+                  &raquo;
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <!--Fin paginación-->
         </main>
       </div>
     </div>

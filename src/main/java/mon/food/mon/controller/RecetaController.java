@@ -7,10 +7,14 @@ import mon.food.mon.service.ComentarioService;
 import mon.food.mon.service.RecetaService;
 import mon.food.mon.service.UsuarioService;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+//import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,35 +43,47 @@ public class RecetaController {
             @RequestParam(required = false) String tipoPlato,
             @RequestParam(required = false) String tiempoPreparacion,
             @RequestParam(required = false) String dificultad,
+            @RequestParam(defaultValue = "0") int page,
             Model model) {
 
-        List<Receta> resultadosBusqueda;
+        Pageable pageable = PageRequest.of(page, 12);
+        Page<Receta> resultado;
 
         if (q != null && !q.isBlank()) {
             List<Usuario> usuariosEncontrados = usuarioService.buscarPorNombre(q);
             model.addAttribute("usuarios", usuariosEncontrados);
             if (usuariosEncontrados.size() == 1) {
-                resultadosBusqueda = recetaService.buscarPorUsuario(usuariosEncontrados.get(0));
+                resultado = Page.empty(pageable);
+                model.addAttribute("recetas", recetaService.buscarPorUsuario(usuariosEncontrados.get(0)));
             } else {
-                resultadosBusqueda = recetaService.buscarPorTituloOIngredientes(q);
+                resultado = recetaService.buscarPorTituloOIngredientesPaginado(q, pageable);
+                model.addAttribute("recetas", resultado.getContent());
             }
         } else if (pais != null && !pais.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorPais(pais);
+            resultado = recetaService.buscarPorPaisPaginado(pais, pageable);
+            model.addAttribute("recetas", resultado.getContent());
         } else if (tipoDieta != null && !tipoDieta.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorTipoDieta(tipoDieta);
+            resultado = recetaService.buscarPorTipoDietaPaginado(tipoDieta, pageable);
+            model.addAttribute("recetas", resultado.getContent());
         } else if (alergia != null && !alergia.isEmpty()) {
-            resultadosBusqueda = recetaService.buscarPorAlergias(alergia.get(0));
+            resultado = recetaService.buscarPorAlergiasPaginado(alergia.get(0), pageable);
+            model.addAttribute("recetas", resultado.getContent());
         } else if (tipoPlato != null && !tipoPlato.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorTipoPlato(tipoPlato);
+            resultado = recetaService.buscarPorTipoplatoPaginado(tipoPlato, pageable);
+            model.addAttribute("recetas", resultado.getContent());
         } else if (tiempoPreparacion != null && !tiempoPreparacion.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorTiempoPreparacion(tiempoPreparacion);
+            resultado = recetaService.buscarPorTiempoPreparacionPaginado(tiempoPreparacion, pageable);
+            model.addAttribute("recetas", resultado.getContent());
         } else if (dificultad != null && !dificultad.isBlank()) {
-            resultadosBusqueda = recetaService.buscarPorDificultad(dificultad);
+            resultado = recetaService.buscarPorDificultadPaginado(dificultad, pageable);
+            model.addAttribute("recetas", resultado.getContent());
         } else {
-            resultadosBusqueda = recetaService.listarTodas();
+            resultado = recetaService.listarTodasPaginadas(pageable);
+            model.addAttribute("recetas", resultado.getContent());
         }
 
-        model.addAttribute("recetas", resultadosBusqueda);
+        model.addAttribute("paginaActual", page);
+        model.addAttribute("totalPaginas", resultado.getTotalPages());
         model.addAttribute("q", q);
         model.addAttribute("pais", pais);
         model.addAttribute("tipoDieta", tipoDieta);
