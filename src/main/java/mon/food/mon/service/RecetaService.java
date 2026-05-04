@@ -4,6 +4,7 @@ import mon.food.mon.model.Receta;
 import mon.food.mon.model.Usuario;
 
 import mon.food.mon.repository.RecetaRepository;
+import mon.food.mon.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class RecetaService {
     @Autowired
     private RecetaRepository recetaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public List<Receta> listarTodas() {
         return recetaRepository.findAll();
@@ -55,6 +59,17 @@ public class RecetaService {
         if (id == null) {
             throw new IllegalArgumentException("El id no puede estar vacío");
         }
+
+        Receta receta = recetaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Receta no encontrada"));
+
+        // Eliminar la receta de la lista de guardados de todos los usuarios
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        for (Usuario usuario : usuarios) {
+            usuario.getRecetasGuardadas().remove(receta);
+        }
+        usuarioRepository.saveAll(usuarios);
+
         recetaRepository.deleteById(id);
     }
 
@@ -112,11 +127,10 @@ public class RecetaService {
         return recetaRepository.findByDificultad(dificultad);
     }
 
-
-    /*A partir de aquí van métodos para buscar con paginación */
+    /* A partir de aquí van métodos para buscar con paginación */
 
     public Page<Receta> listarTodasPaginadas(@NonNull Pageable pageable) {
-    return recetaRepository.findAll(pageable);
+        return recetaRepository.findAll(pageable);
     }
 
     public Page<Receta> buscarPorTituloOIngredientesPaginado(String q, Pageable pageable) {
