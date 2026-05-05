@@ -56,9 +56,9 @@
 }
 
 .btn-editar-receta:hover {
-  background-color: transparent;
-  border-color: var(--verde-mon);
-  color: var(--verde-mon);
+  background-color: transparent !important;
+  border-color: var(--verde-mon) !important;
+  color: var(--verde-mon) !important;
   transform: translateY(-2px);
 }
 
