@@ -9,6 +9,7 @@ import mon.food.mon.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,7 @@ public class RecetaService {
     }
 
     // Método eliminar
+    @Transactional
     public void eliminar(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("El id no puede estar vacío");
