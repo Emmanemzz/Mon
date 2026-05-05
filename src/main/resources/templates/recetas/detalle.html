@@ -190,7 +190,7 @@
     <section
       class="container my-2"
       sec:authorize="isAuthenticated()"
-      th:if="${usuarioActual.id == receta.autor.id or usuarioActual.authorities.![authority].contains('ROLE_ADMIN')}"
+      th:if="${usuarioActual.id == receta.autor.id or usuarioActual.rol == 'ADMIN'}"
     >
       <a
         th:href="@{/recetas/{id}/editar(id=${receta.id})}"
