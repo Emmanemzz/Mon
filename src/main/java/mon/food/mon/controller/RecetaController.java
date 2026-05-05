@@ -178,7 +178,8 @@ public class RecetaController {
             @AuthenticationPrincipal Usuario usuarioActual) {
 
         Optional<Receta> receta = recetaService.listarPorId(id);
-        if (receta.isPresent() && receta.get().getAutor().getId().equals(usuarioActual.getId())) {
+        if (receta.isPresent() && (receta.get().getAutor().getId().equals(usuarioActual.getId()) ||
+                usuarioActual.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")))) {
             recetaService.eliminar(id);
         }
         return "redirect:/recetas";
