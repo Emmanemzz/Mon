@@ -273,7 +273,7 @@
 
     <!--PRIVADO BÓTONES-->
     <section class="container my-2" sec:authorize="isAuthenticated()">
-      <!--Botón guardar-->
+      <!--Botón favorito-->
       <form
         th:if="${usuarioActual != null and !usuarioActual.recetasGuardadas.contains(receta)}"
         th:action="@{/recetas/{id}/guardar(id=${receta.id})}"
@@ -281,7 +281,7 @@
         class="d-inline"
       >
         <button type="submit" class="btn btn-guardar me-2">
-          Guardar receta
+          Guardar favorito
         </button>
       </form>
 
@@ -293,7 +293,7 @@
         class="d-inline"
       >
         <button type="submit" class="btn btn-outline-primary me-2">
-          Quitar guardado
+          Quitar favorito
         </button>
       </form>
     </section>
