@@ -2,7 +2,7 @@ package mon.food.mon.service;
 
 import mon.food.mon.model.Receta;
 import mon.food.mon.model.Usuario;
-
+import mon.food.mon.repository.ComentarioRepository;
 import mon.food.mon.repository.RecetaRepository;
 import mon.food.mon.repository.UsuarioRepository;
 
@@ -22,6 +22,9 @@ public class RecetaService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     public List<Receta> listarTodas() {
         return recetaRepository.findAll();
@@ -70,6 +73,7 @@ public class RecetaService {
         }
         usuarioRepository.saveAll(usuarios);
 
+        comentarioRepository.deleteByRecetaId(id);
         recetaRepository.deleteById(id);
     }
 

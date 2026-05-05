@@ -12,4 +12,5 @@ import java.util.*;
 @Repository
 public interface ComentarioRepository extends JpaRepository<Comentario, Long>{
     List<Comentario> findByRecetaOrderByFechaCreacionComentarioDesc(Receta receta);
+    void deleteByRecetaId(Long recetaId);
 }
