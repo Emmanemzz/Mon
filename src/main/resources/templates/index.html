@@ -272,12 +272,29 @@
       class="container my-4"
       th:if="${#authorization.expression('isAuthenticated()')}"
     >
-      <h2 class="text-center mb-4">Recetas guardadas</h2>
-      <div class="row mt-3 recetas-guardadas">
-        <div th:each="receta : ${recetasGuardadas}" class="col-md-6 mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Recetas guardadas</h2>
+        <a
+          th:href="@{/perfil/recetas-guardadas}"
+          class="btn btn-outline-secondary btn-sm"
+          th:if="${totalGuardadas > 2}"
+        >
+          Ver todas (<span th:text="${totalGuardadas}"></span>)
+        </a>
+      </div>
+
+      <p
+        th:if="${#lists.isEmpty(recetasGuardadas)}"
+        class="text-center text-muted"
+      >
+        Todavía no has guardado ninguna receta.
+      </p>
+
+      <div class="row justify-content-center">
+        <div th:each="receta : ${recetasGuardadas}" class="col-md-5 mb-4">
           <div class="card">
             <img
-              th:src="${receta.imagen1}"
+              th:src="${receta.imagen1} ?: 'https://placehold.co/300x200'"
               alt="Imagen receta"
               class="card-img-top"
             />
@@ -288,18 +305,11 @@
               <a
                 th:href="@{/recetas/{id}(id=${receta.id})}"
                 class="btn btn-sm btn-outline-success stretched-link"
+                >Ver receta</a
               >
-                Ver receta
-              </a>
             </div>
           </div>
         </div>
-        <p
-          th:if="${#lists.isEmpty(recetasGuardadas)}"
-          class="text-center text-muted"
-        >
-          Todavía no has guardado ninguna receta.
-        </p>
       </div>
     </section>
     <!--Fin sección recetas guardadas-->
