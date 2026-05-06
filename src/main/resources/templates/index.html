@@ -270,17 +270,8 @@
       class="container my-4"
       th:if="${#authorization.expression('isAuthenticated()')}"
     >
-      <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Recetas favoritas</h2>
-        <a
-          th:href="@{/perfil/recetas-guardadas}"
-          class="btn btn-outline-secondary btn-sm"
-          th:if="${totalGuardadas > 2}"
-        >
-          Ver todas (<span th:text="${totalGuardadas}"></span>)
-        </a>
-      </div>
-
+        
       <p
         th:if="${#lists.isEmpty(recetasGuardadas)}"
         class="text-center text-muted"
@@ -308,6 +299,15 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="text-center mt-2" th:if="${totalGuardadas > 2}">
+        <a
+          th:href="@{/perfil/recetas-guardadas}"
+          class="btn btn-ver-todas btn-sm"
+        >
+          Ver todas (<span th:text="${totalGuardadas}"></span>)
+        </a>
       </div>
     </section>
     <!--Fin sección recetas favoritas-->

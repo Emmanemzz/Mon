@@ -71,6 +71,22 @@ hr{
   object-fit: cover;
 }
 
+/*Button*/
+.btn-ver-todas {
+  background-color: #c17f5a;
+  border-color: #c17f5a;
+  color: #ffffff;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-ver-todas:hover {
+  background-color: transparent;
+  border-color: #c17f5a;
+  color: #c17f5a;
+}
+
+
 /* .recetas-guardadas .card {
   max-width: 400px;
   margin: 0 auto;
